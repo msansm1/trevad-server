@@ -1,0 +1,81 @@
+package bzh.msansm1.trevad.server.persistence.dao;
+
+import java.util.List;
+
+import javax.enterprise.context.RequestScoped;
+
+import bzh.msansm1.trevad.server.persistence.model.User;
+
+/**
+ * DAO for USER table
+ * 
+ * @author msansm1
+ *
+ */
+@RequestScoped
+public class UserDAO extends Dao {
+
+    public void updateUser(User user) {
+        em.merge(user);
+    }
+
+    public void saveUser(User user) {
+        em.persist(user);
+        em.refresh(user);
+    }
+
+    public void removeUser(User user) {
+        em.remove(em.merge(user));
+        em.flush();
+    }
+
+    public List<User> getUsers() {
+        return em.createQuery("from User", User.class).getResultList();
+    }
+
+    public User getUser(Integer id) {
+        return em.find(User.class, id);
+    }
+
+    @SuppressWarnings("unchecked")
+    public Integer tokenExists(String authToken) {
+        List<Integer> l = em.createQuery("select id from User u where u.token = :param1")
+                .setParameter("param1", authToken).getResultList();
+        if (l.isEmpty()) {
+            l = em.createQuery("select id from User u where u.mobileToken = :param1").setParameter("param1", authToken)
+                    .getResultList();
+            if (l.isEmpty()) {
+                return null;
+            } else {
+                return l.get(0);
+            }
+        } else {
+            return l.get(0);
+        }
+    }
+
+    public User getUserByLogin(String login) {
+        List<User> allUser = em.createQuery("from User u where u.login=:userLogin", User.class)
+                .setParameter("userLogin", login).getResultList();
+        for (User usr : allUser) {
+            return usr;
+        }
+        return null;
+    }
+
+    public User getUserByToken(String token) {
+        List<User> allUser = em.createQuery("from User u where u.token=:token", User.class).setParameter("token", token)
+                .getResultList();
+        if (allUser.isEmpty()) {
+            allUser = em.createQuery("from User u where u.mobileToken=:token", User.class).setParameter("token", token)
+                    .getResultList();
+            if (allUser.isEmpty()) {
+                return null;
+            } else {
+                return allUser.get(0);
+            }
+        } else {
+            return allUser.get(0);
+        }
+    }
+}
