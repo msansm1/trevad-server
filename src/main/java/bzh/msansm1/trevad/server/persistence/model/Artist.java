@@ -1,232 +1,242 @@
 package bzh.msansm1.trevad.server.persistence.model;
 
 import java.io.Serializable;
-import javax.persistence.*;
 import java.util.List;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 /**
  * The persistent class for the ARTIST database table.
  * 
  */
 @Entity
-@Table(name="ARTIST")
-@NamedQuery(name="Artist.findAll", query="SELECT a FROM Artist a")
+@Table(name = "ARTIST")
+@NamedQuery(name = "Artist.findAll", query = "SELECT a FROM Artist a")
 public class Artist implements Serializable {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(name="ID", unique=true, nullable=false)
-	private Integer id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "ID", unique = true, nullable = false)
+    private Integer id;
 
-	@Column(name="BIOLINK", length=45)
-	private String biolink;
+    @Column(name = "BIOLINK", length = 45)
+    private String biolink;
 
-	@Column(name="FIRSTNAME", length=45)
-	private String firstname;
+    @Column(name = "FIRSTNAME", length = 45)
+    private String firstname;
 
-	@Column(name="NAME", nullable=false, length=45)
-	private String name;
+    @Column(name = "NAME", nullable = false, length = 45)
+    private String name;
 
-	@Column(name="NATIONALITY", length=45)
-	private String nationality;
+    @Column(name = "NATIONALITY", length = 45)
+    private String nationality;
 
-	@Column(name="PICTURE", length=45)
-	private String picture;
+    @Column(name = "PICTURE", length = 45)
+    private String picture;
 
-	//bi-directional many-to-one association to Albumartist
-	@OneToMany(mappedBy="artistBean")
-	private List<Albumartist> albumartists;
+    // bi-directional many-to-one association to Albumartist
+    @OneToMany(mappedBy = "artistBean")
+    private List<Albumartist> albumartists;
 
-	//bi-directional many-to-one association to Artisttype
-	@ManyToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name="TYPE", nullable=false)
-	private Artisttype artisttype;
+    // bi-directional many-to-one association to Artisttype
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "TYPE", nullable = false)
+    private Artisttype artisttype;
 
-	//bi-directional many-to-one association to Bookartist
-	@OneToMany(mappedBy="artistBean")
-	private List<Bookartist> bookartists;
+    // bi-directional many-to-one association to Bookartist
+    @OneToMany(mappedBy = "artistBean")
+    private List<Bookartist> bookartists;
 
-	//bi-directional many-to-one association to Movieartist
-	@OneToMany(mappedBy="artistBean")
-	private List<Movieartist> movieartists;
+    // bi-directional many-to-one association to Movieartist
+    @OneToMany(mappedBy = "artistBean")
+    private List<Movieartist> movieartists;
 
-	//bi-directional many-to-one association to Trackartist
-	@OneToMany(mappedBy="artistBean")
-	private List<Trackartist> trackartists;
+    // bi-directional many-to-one association to Trackartist
+    @OneToMany(mappedBy = "artistBean")
+    private List<Trackartist> trackartists;
 
-	//bi-directional many-to-one association to Tvartist
-	@OneToMany(mappedBy="artistBean")
-	private List<Tvartist> tvartists;
+    // bi-directional many-to-one association to Tvartist
+    @OneToMany(mappedBy = "artistBean")
+    private List<Tvartist> tvartists;
 
-	public Artist() {
-	}
+    public Artist() {
+    }
 
-	public Integer getId() {
-		return this.id;
-	}
+    public Integer getId() {
+        return this.id;
+    }
 
-	public void setId(Integer id) {
-		this.id = id;
-	}
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
-	public String getBiolink() {
-		return this.biolink;
-	}
+    public String getBiolink() {
+        return this.biolink;
+    }
 
-	public void setBiolink(String biolink) {
-		this.biolink = biolink;
-	}
+    public void setBiolink(String biolink) {
+        this.biolink = biolink;
+    }
 
-	public String getFirstname() {
-		return this.firstname;
-	}
+    public String getFirstname() {
+        return this.firstname;
+    }
 
-	public void setFirstname(String firstname) {
-		this.firstname = firstname;
-	}
+    public void setFirstname(String firstname) {
+        this.firstname = firstname;
+    }
 
-	public String getName() {
-		return this.name;
-	}
+    public String getName() {
+        return this.name;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	public String getNationality() {
-		return this.nationality;
-	}
+    public String getNationality() {
+        return this.nationality;
+    }
 
-	public void setNationality(String nationality) {
-		this.nationality = nationality;
-	}
+    public void setNationality(String nationality) {
+        this.nationality = nationality;
+    }
 
-	public String getPicture() {
-		return this.picture;
-	}
+    public String getPicture() {
+        return this.picture;
+    }
 
-	public void setPicture(String picture) {
-		this.picture = picture;
-	}
+    public void setPicture(String picture) {
+        this.picture = picture;
+    }
 
-	public List<Albumartist> getAlbumartists() {
-		return this.albumartists;
-	}
+    public List<Albumartist> getAlbumartists() {
+        return this.albumartists;
+    }
 
-	public void setAlbumartists(List<Albumartist> albumartists) {
-		this.albumartists = albumartists;
-	}
+    public void setAlbumartists(List<Albumartist> albumartists) {
+        this.albumartists = albumartists;
+    }
 
-	public Albumartist addAlbumartist(Albumartist albumartist) {
-		getAlbumartists().add(albumartist);
-		albumartist.setArtistBean(this);
+    public Albumartist addAlbumartist(Albumartist albumartist) {
+        getAlbumartists().add(albumartist);
+        albumartist.setArtistBean(this);
 
-		return albumartist;
-	}
+        return albumartist;
+    }
 
-	public Albumartist removeAlbumartist(Albumartist albumartist) {
-		getAlbumartists().remove(albumartist);
-		albumartist.setArtistBean(null);
+    public Albumartist removeAlbumartist(Albumartist albumartist) {
+        getAlbumartists().remove(albumartist);
+        albumartist.setArtistBean(null);
 
-		return albumartist;
-	}
+        return albumartist;
+    }
 
-	public Artisttype getArtisttype() {
-		return this.artisttype;
-	}
+    public Artisttype getArtisttype() {
+        return this.artisttype;
+    }
 
-	public void setArtisttype(Artisttype artisttype) {
-		this.artisttype = artisttype;
-	}
+    public void setArtisttype(Artisttype artisttype) {
+        this.artisttype = artisttype;
+    }
 
-	public List<Bookartist> getBookartists() {
-		return this.bookartists;
-	}
+    public List<Bookartist> getBookartists() {
+        return this.bookartists;
+    }
 
-	public void setBookartists(List<Bookartist> bookartists) {
-		this.bookartists = bookartists;
-	}
+    public void setBookartists(List<Bookartist> bookartists) {
+        this.bookartists = bookartists;
+    }
 
-	public Bookartist addBookartist(Bookartist bookartist) {
-		getBookartists().add(bookartist);
-		bookartist.setArtistBean(this);
+    public Bookartist addBookartist(Bookartist bookartist) {
+        getBookartists().add(bookartist);
+        bookartist.setArtistBean(this);
 
-		return bookartist;
-	}
+        return bookartist;
+    }
 
-	public Bookartist removeBookartist(Bookartist bookartist) {
-		getBookartists().remove(bookartist);
-		bookartist.setArtistBean(null);
+    public Bookartist removeBookartist(Bookartist bookartist) {
+        getBookartists().remove(bookartist);
+        bookartist.setArtistBean(null);
 
-		return bookartist;
-	}
+        return bookartist;
+    }
 
-	public List<Movieartist> getMovieartists() {
-		return this.movieartists;
-	}
+    public List<Movieartist> getMovieartists() {
+        return this.movieartists;
+    }
 
-	public void setMovieartists(List<Movieartist> movieartists) {
-		this.movieartists = movieartists;
-	}
+    public void setMovieartists(List<Movieartist> movieartists) {
+        this.movieartists = movieartists;
+    }
 
-	public Movieartist addMovieartist(Movieartist movieartist) {
-		getMovieartists().add(movieartist);
-		movieartist.setArtistBean(this);
+    public Movieartist addMovieartist(Movieartist movieartist) {
+        getMovieartists().add(movieartist);
+        movieartist.setArtistBean(this);
 
-		return movieartist;
-	}
+        return movieartist;
+    }
 
-	public Movieartist removeMovieartist(Movieartist movieartist) {
-		getMovieartists().remove(movieartist);
-		movieartist.setArtistBean(null);
+    public Movieartist removeMovieartist(Movieartist movieartist) {
+        getMovieartists().remove(movieartist);
+        movieartist.setArtistBean(null);
 
-		return movieartist;
-	}
+        return movieartist;
+    }
 
-	public List<Trackartist> getTrackartists() {
-		return this.trackartists;
-	}
+    public List<Trackartist> getTrackartists() {
+        return this.trackartists;
+    }
 
-	public void setTrackartists(List<Trackartist> trackartists) {
-		this.trackartists = trackartists;
-	}
+    public void setTrackartists(List<Trackartist> trackartists) {
+        this.trackartists = trackartists;
+    }
 
-	public Trackartist addTrackartist(Trackartist trackartist) {
-		getTrackartists().add(trackartist);
-		trackartist.setArtistBean(this);
+    public Trackartist addTrackartist(Trackartist trackartist) {
+        getTrackartists().add(trackartist);
+        trackartist.setArtistBean(this);
 
-		return trackartist;
-	}
+        return trackartist;
+    }
 
-	public Trackartist removeTrackartist(Trackartist trackartist) {
-		getTrackartists().remove(trackartist);
-		trackartist.setArtistBean(null);
+    public Trackartist removeTrackartist(Trackartist trackartist) {
+        getTrackartists().remove(trackartist);
+        trackartist.setArtistBean(null);
 
-		return trackartist;
-	}
+        return trackartist;
+    }
 
-	public List<Tvartist> getTvartists() {
-		return this.tvartists;
-	}
+    public List<Tvartist> getTvartists() {
+        return this.tvartists;
+    }
 
-	public void setTvartists(List<Tvartist> tvartists) {
-		this.tvartists = tvartists;
-	}
+    public void setTvartists(List<Tvartist> tvartists) {
+        this.tvartists = tvartists;
+    }
 
-	public Tvartist addTvartist(Tvartist tvartist) {
-		getTvartists().add(tvartist);
-		tvartist.setArtistBean(this);
+    public Tvartist addTvartist(Tvartist tvartist) {
+        getTvartists().add(tvartist);
+        tvartist.setArtistBean(this);
 
-		return tvartist;
-	}
+        return tvartist;
+    }
 
-	public Tvartist removeTvartist(Tvartist tvartist) {
-		getTvartists().remove(tvartist);
-		tvartist.setArtistBean(null);
+    public Tvartist removeTvartist(Tvartist tvartist) {
+        getTvartists().remove(tvartist);
+        tvartist.setArtistBean(null);
 
-		return tvartist;
-	}
+        return tvartist;
+    }
 
 }
