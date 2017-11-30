@@ -18,6 +18,9 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
 /**
  * The persistent class for the ALBUM database table.
  * 
@@ -60,19 +63,23 @@ public class Album implements Serializable {
     private Support supportBean;
 
     // bi-directional many-to-one association to Albumartist
-    @OneToMany(mappedBy = "albumBean")
+    @OneToMany(mappedBy = "albumBean", fetch = FetchType.EAGER)
+    @Fetch(value = FetchMode.SUBSELECT)
     private List<Albumartist> albumartists;
 
     // bi-directional many-to-one association to Loan
-    @OneToMany(mappedBy = "albumBean")
+    @OneToMany(mappedBy = "albumBean", fetch = FetchType.EAGER)
+    @Fetch(value = FetchMode.SUBSELECT)
     private List<Loan> loans;
 
     // bi-directional many-to-one association to Track
-    @OneToMany(mappedBy = "albumBean")
+    @OneToMany(mappedBy = "albumBean", fetch = FetchType.EAGER)
+    @Fetch(value = FetchMode.SUBSELECT)
     private List<Track> tracks;
 
     // bi-directional many-to-one association to Useralbum
-    @OneToMany(mappedBy = "albumBean")
+    @OneToMany(mappedBy = "albumBean", fetch = FetchType.EAGER)
+    @Fetch(value = FetchMode.SUBSELECT)
     private List<Useralbum> useralbums;
 
     public Album() {

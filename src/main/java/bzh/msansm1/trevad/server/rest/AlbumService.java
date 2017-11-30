@@ -6,6 +6,7 @@ import java.util.List;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
+import javax.transaction.Transactional;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -238,6 +239,7 @@ public class AlbumService extends Application {
      * @return
      */
     @POST
+    @Transactional(rollbackOn = Exception.class)
     public JsonAlbum createUpdateOne(JsonAlbum album) {
         JsonAlbum ja = album;
         if (album.getId() == null) {
@@ -467,6 +469,7 @@ public class AlbumService extends Application {
      */
     @POST
     @Path("removefromcollec")
+    @Transactional(rollbackOn = Exception.class)
     public Response removeFromCollection(JsonMyAlbum album) {
         Useralbum ua = new Useralbum();
         UseralbumPK uaid = new UseralbumPK();

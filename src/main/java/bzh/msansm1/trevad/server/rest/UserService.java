@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
+import javax.transaction.Transactional;
 import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -76,6 +77,7 @@ public class UserService extends Application {
      * @return
      */
     @POST
+    @Transactional(rollbackOn = Exception.class)
     public JsonUser createUpdateOne(JsonUser user) {
         JsonUser juser = user;
         if (user.getId() == null) {
@@ -103,6 +105,7 @@ public class UserService extends Application {
      */
     @POST
     @Path(value = "/profile")
+    @Transactional(rollbackOn = Exception.class)
     public JsonAuth updateLogged(JsonAuth user) {
         JsonAuth juser = user;
         User u = userDao.getUser(user.getId());

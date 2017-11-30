@@ -5,12 +5,16 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 /**
  * The persistent class for the USER database table.
@@ -43,35 +47,43 @@ public class User implements Serializable {
     private String token;
 
     // bi-directional many-to-one association to Friend
-    @OneToMany(mappedBy = "user1")
+    @OneToMany(mappedBy = "user1", fetch = FetchType.EAGER)
+    @Fetch(value = FetchMode.SUBSELECT)
     private List<Friend> friends1;
 
     // bi-directional many-to-one association to Friend
-    @OneToMany(mappedBy = "user2")
+    @OneToMany(mappedBy = "user2", fetch = FetchType.EAGER)
+    @Fetch(value = FetchMode.SUBSELECT)
     private List<Friend> friends2;
 
     // bi-directional many-to-one association to Loan
-    @OneToMany(mappedBy = "user1")
+    @OneToMany(mappedBy = "user1", fetch = FetchType.EAGER)
+    @Fetch(value = FetchMode.SUBSELECT)
     private List<Loan> loans1;
 
     // bi-directional many-to-one association to Loan
-    @OneToMany(mappedBy = "user2")
+    @OneToMany(mappedBy = "user2", fetch = FetchType.EAGER)
+    @Fetch(value = FetchMode.SUBSELECT)
     private List<Loan> loans2;
 
     // bi-directional many-to-one association to Useralbum
-    @OneToMany(mappedBy = "userBean")
+    @OneToMany(mappedBy = "userBean", fetch = FetchType.EAGER)
+    @Fetch(value = FetchMode.SUBSELECT)
     private List<Useralbum> useralbums;
 
     // bi-directional many-to-one association to Userbook
-    @OneToMany(mappedBy = "userBean")
+    @OneToMany(mappedBy = "userBean", fetch = FetchType.EAGER)
+    @Fetch(value = FetchMode.SUBSELECT)
     private List<Userbook> userbooks;
 
     // bi-directional many-to-one association to Usermovie
-    @OneToMany(mappedBy = "userBean")
+    @OneToMany(mappedBy = "userBean", fetch = FetchType.EAGER)
+    @Fetch(value = FetchMode.SUBSELECT)
     private List<Usermovie> usermovies;
 
     // bi-directional many-to-one association to Usertv
-    @OneToMany(mappedBy = "userBean")
+    @OneToMany(mappedBy = "userBean", fetch = FetchType.EAGER)
+    @Fetch(value = FetchMode.SUBSELECT)
     private List<Usertv> usertvs;
 
     public User() {

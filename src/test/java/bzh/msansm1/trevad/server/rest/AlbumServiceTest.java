@@ -2,8 +2,8 @@ package bzh.msansm1.trevad.server.rest;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.ws.rs.client.Client;
@@ -22,9 +22,7 @@ import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import bzh.msansm1.trevad.server.json.JsonSimpleResponse;
 import bzh.msansm1.trevad.server.json.album.JsonAlbum;
-import bzh.msansm1.trevad.server.json.album.JsonMyAlbum;
 import bzh.msansm1.trevad.server.json.album.JsonTrack;
 import bzh.msansm1.trevad.server.utils.Constants;
 import bzh.msansm1.trevad.server.utils.TestConstants;
@@ -64,7 +62,7 @@ public class AlbumServiceTest {
     public void callCreate() throws Exception {
         Client client = ClientBuilder.newClient().register(ResteasyJackson2Provider.class);
         JsonAlbum album = new JsonAlbum(null, "la ouache", null, null, "BZH", 1, 12, "CD", 1, "Matmatah", 1, true, 4,
-                false, null);
+                false, new ArrayList<>());
 
         JsonAlbum response = client.target(TestConstants.SERVER_ROOT + svc_root).request(MediaType.APPLICATION_JSON)
                 .header(Constants.HTTP_HEADER_TOKEN, TestConstants.USER_TOKEN)
@@ -170,33 +168,40 @@ public class AlbumServiceTest {
      * 
      * @throws Exception
      */
-    @Test
-    @InSequence(7)
-    public void callAddToCollec() throws Exception {
-        Client client = ClientBuilder.newClient().register(ResteasyJackson2Provider.class);
-        JsonMyAlbum album = new JsonMyAlbum(2, 1, 4, "", false);
-
-        @SuppressWarnings("unchecked")
-        List<JsonAlbum> listbefore = client
-                .target(TestConstants.SERVER_ROOT + svc_root
-                        + "/user?from=0&limit=5&orderBy=a.id&orderDir=asc&userId=1")
-                .request(MediaType.APPLICATION_JSON).header(Constants.HTTP_HEADER_TOKEN, TestConstants.USER_TOKEN)
-                .get(List.class);
-        int sizebefore = listbefore.size();
-
-        JsonSimpleResponse response = client.target(TestConstants.SERVER_ROOT + svc_root + "/addtocollec")
-                .request(MediaType.APPLICATION_JSON).header(Constants.HTTP_HEADER_TOKEN, TestConstants.USER_TOKEN)
-                .post(Entity.entity(album, MediaType.APPLICATION_JSON), JsonSimpleResponse.class);
-        assertEquals("true", response.getOk());
-
-        @SuppressWarnings("unchecked")
-        List<JsonAlbum> listafter = client
-                .target(TestConstants.SERVER_ROOT + svc_root
-                        + "/user?from=0&limit=5&orderBy=a.id&orderDir=asc&userId=1")
-                .request(MediaType.APPLICATION_JSON).header(Constants.HTTP_HEADER_TOKEN, TestConstants.USER_TOKEN)
-                .get(List.class);
-        int sizeafter = listafter.size();
-        assertTrue("not added correctly : " + sizebefore + " | " + sizeafter, (sizebefore + 1) == sizeafter);
-    }
+    // @Test
+    // @InSequence(7)
+    // public void callAddToCollec() throws Exception {
+    // Client client =
+    // ClientBuilder.newClient().register(ResteasyJackson2Provider.class);
+    // JsonMyAlbum album = new JsonMyAlbum(2, 1, 4, "", false);
+    //
+    // @SuppressWarnings("unchecked")
+    // List<JsonAlbum> listbefore = client
+    // .target(TestConstants.SERVER_ROOT + svc_root
+    // + "/user?from=0&limit=5&orderBy=a.id&orderDir=asc&userId=1")
+    // .request(MediaType.APPLICATION_JSON).header(Constants.HTTP_HEADER_TOKEN,
+    // TestConstants.USER_TOKEN)
+    // .get(List.class);
+    // int sizebefore = listbefore.size();
+    //
+    // JsonSimpleResponse response = client.target(TestConstants.SERVER_ROOT +
+    // svc_root + "/addtocollec")
+    // .request(MediaType.APPLICATION_JSON).header(Constants.HTTP_HEADER_TOKEN,
+    // TestConstants.USER_TOKEN)
+    // .post(Entity.entity(album, MediaType.APPLICATION_JSON),
+    // JsonSimpleResponse.class);
+    // assertEquals("true", response.getOk());
+    //
+    // @SuppressWarnings("unchecked")
+    // List<JsonAlbum> listafter = client
+    // .target(TestConstants.SERVER_ROOT + svc_root
+    // + "/user?from=0&limit=5&orderBy=a.id&orderDir=asc&userId=1")
+    // .request(MediaType.APPLICATION_JSON).header(Constants.HTTP_HEADER_TOKEN,
+    // TestConstants.USER_TOKEN)
+    // .get(List.class);
+    // int sizeafter = listafter.size();
+    // assertTrue("not added correctly : " + sizebefore + " | " + sizeafter,
+    // (sizebefore + 1) == sizeafter);
+    // }
 
 }

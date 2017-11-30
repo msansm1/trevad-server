@@ -38,16 +38,14 @@ import bzh.msansm1.trevad.server.utils.TestUtils;
 public class UserServiceTest {
     private static final Logger LOGGER = Logger.getLogger(UserServiceTest.class);
 
-    private static final String APP_NAME = "userservice";
-
-    private static final String svc_root = "/services/users";
+    private static final String svc_root = "/api/v1/users";
 
     // testable = false => it's for testing as a client (we don't test inside
     // the app)
     @Deployment(testable = false)
     public static WebArchive createDeployment() {
         // creation of the war for testing
-        final WebArchive war = TestUtils.getWarFile(APP_NAME);
+        final WebArchive war = TestUtils.getWarFile("testwar");
         LOGGER.info(war.toString(Formatters.VERBOSE));
         return war;
     }
@@ -63,7 +61,7 @@ public class UserServiceTest {
         Client client = ClientBuilder.newClient().register(ResteasyJackson2Provider.class);
 
         @SuppressWarnings("unchecked")
-        List<JsonUser> response = client.target(TestConstants.SERVER_ROOT + APP_NAME + svc_root)
+        List<JsonUser> response = client.target(TestConstants.SERVER_ROOT + svc_root)
                 .request(MediaType.APPLICATION_JSON).header(Constants.HTTP_HEADER_TOKEN, TestConstants.USER_TOKEN)
                 .get(List.class);
         assertFalse("No user found", response.isEmpty());
@@ -79,7 +77,7 @@ public class UserServiceTest {
     public void callGetOne() throws Exception {
         Client client = ClientBuilder.newClient().register(ResteasyJackson2Provider.class);
 
-        JsonUser response = client.target(TestConstants.SERVER_ROOT + APP_NAME + svc_root + "/1")
+        JsonUser response = client.target(TestConstants.SERVER_ROOT + svc_root + "/1")
                 .request(MediaType.APPLICATION_JSON).header(Constants.HTTP_HEADER_TOKEN, TestConstants.USER_TOKEN)
                 .get(JsonUser.class);
         assertEquals("msansm1", response.getLogin());
@@ -96,8 +94,8 @@ public class UserServiceTest {
         Client client = ClientBuilder.newClient().register(ResteasyJackson2Provider.class);
         JsonUser user = new JsonUser(null, "testrest", "test@rest.bzh");
 
-        JsonUser response = client.target(TestConstants.SERVER_ROOT + APP_NAME + svc_root)
-                .request(MediaType.APPLICATION_JSON).header(Constants.HTTP_HEADER_TOKEN, TestConstants.USER_TOKEN)
+        JsonUser response = client.target(TestConstants.SERVER_ROOT + svc_root).request(MediaType.APPLICATION_JSON)
+                .header(Constants.HTTP_HEADER_TOKEN, TestConstants.USER_TOKEN)
                 .post(Entity.entity(user, MediaType.APPLICATION_JSON), JsonUser.class);
         assertEquals("testrest", response.getLogin());
     }
@@ -113,8 +111,8 @@ public class UserServiceTest {
         Client client = ClientBuilder.newClient().register(ResteasyJackson2Provider.class);
         JsonUser user = new JsonUser(1, "msansm1", "test@test.bzh");
 
-        JsonUser response = client.target(TestConstants.SERVER_ROOT + APP_NAME + svc_root)
-                .request(MediaType.APPLICATION_JSON).header(Constants.HTTP_HEADER_TOKEN, TestConstants.USER_TOKEN)
+        JsonUser response = client.target(TestConstants.SERVER_ROOT + svc_root).request(MediaType.APPLICATION_JSON)
+                .header(Constants.HTTP_HEADER_TOKEN, TestConstants.USER_TOKEN)
                 .post(Entity.entity(user, MediaType.APPLICATION_JSON), JsonUser.class);
         assertEquals("msansm1", response.getLogin());
     }
