@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
+import javax.transaction.Transactional;
 import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -87,6 +88,7 @@ public class TrackService extends Application {
      * @return
      */
     @POST
+    @Transactional(rollbackOn = Exception.class)
     public JsonTrack createUpdateOne(JsonTrack track) {
         JsonTrack jt = track;
         if (track.getId() == null) {

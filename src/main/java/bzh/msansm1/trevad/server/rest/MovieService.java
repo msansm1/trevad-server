@@ -6,6 +6,7 @@ import java.util.List;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
+import javax.transaction.Transactional;
 import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -161,6 +162,7 @@ public class MovieService extends Application {
      * @return
      */
     @POST
+    @Transactional(rollbackOn = Exception.class)
     public JsonMovie createUpdateOne(JsonMovie movie) {
         JsonMovie jmovie = movie;
         if (movie.getId() == null) {
@@ -280,6 +282,7 @@ public class MovieService extends Application {
      */
     @POST
     @Path("addtocollec")
+    @Transactional(rollbackOn = Exception.class)
     public Response addToCollection(JsonMyMovie movie) {
         Usermovie um = new Usermovie();
         UsermoviePK umid = new UsermoviePK();
@@ -301,6 +304,7 @@ public class MovieService extends Application {
      */
     @POST
     @Path("removefromcollec")
+    @Transactional(rollbackOn = Exception.class)
     public Response removeFromCollection(JsonMyMovie movie) {
         Usermovie um = new Usermovie();
         UsermoviePK umid = new UsermoviePK();

@@ -6,6 +6,7 @@ import java.util.List;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
+import javax.transaction.Transactional;
 import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -127,6 +128,7 @@ public class LoanService extends Application {
      * @return
      */
     @POST
+    @Transactional(rollbackOn = Exception.class)
     public JsonLoan getOne(JsonLoan loan) {
         JsonLoan jl = loan;
         if (jl.getId() == null) {

@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
+import javax.transaction.Transactional;
 import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -79,6 +80,7 @@ public class ArtistService extends Application {
      * @return
      */
     @POST
+    @Transactional(rollbackOn = Exception.class)
     public JsonArtist createUpdateOne(JsonArtist artist) {
         JsonArtist jartist = artist;
         if (artist.getId() == null) {

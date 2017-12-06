@@ -6,6 +6,7 @@ import java.util.List;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
+import javax.transaction.Transactional;
 import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -233,6 +234,7 @@ public class BookService extends Application {
      * @return
      */
     @POST
+    @Transactional(rollbackOn = Exception.class)
     public JsonBook createUpdateOne(JsonBook jb) {
         JsonBook jbook = jb;
         if (jb.getId() == null) {
@@ -382,6 +384,7 @@ public class BookService extends Application {
      */
     @POST
     @Path("addtocollec")
+    @Transactional(rollbackOn = Exception.class)
     public Response addToCollection(JsonMyBook book) {
         Userbook ub = new Userbook();
         UserbookPK ubid = new UserbookPK();
@@ -404,6 +407,7 @@ public class BookService extends Application {
      */
     @POST
     @Path("removefromcollec")
+    @Transactional(rollbackOn = Exception.class)
     public Response removeFromCollection(JsonMyBook book) {
         Userbook ub = new Userbook();
         UserbookPK ubid = new UserbookPK();

@@ -5,6 +5,7 @@ import java.util.UUID;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
+import javax.transaction.Transactional;
 import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
@@ -51,6 +52,7 @@ public class AuthService extends Application {
      */
     @POST
     @Path("/login")
+    @Transactional(rollbackOn = Exception.class)
     public Response loginUser(@Context HttpServletRequest request, JsonLogin jlogin) {
         User u = userDao.getUserByLogin(jlogin.getLogin());
         if (u != null) {
@@ -75,6 +77,7 @@ public class AuthService extends Application {
      */
     @POST
     @Path("/login/mobile")
+    @Transactional(rollbackOn = Exception.class)
     public Response loginMobileUser(@Context HttpServletRequest request, JsonLogin jlogin) {
         User u = userDao.getUserByLogin(jlogin.getLogin());
         if (u != null) {

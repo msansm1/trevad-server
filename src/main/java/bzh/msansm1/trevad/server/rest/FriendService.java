@@ -5,6 +5,7 @@ import java.util.List;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
+import javax.transaction.Transactional;
 import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -81,6 +82,7 @@ public class FriendService extends Application {
      */
     @POST
     @Path(value = "/{userId}/{id}")
+    @Transactional(rollbackOn = Exception.class)
     public JsonFriend createUpdate(@PathParam(value = "userId") Integer userId, @PathParam(value = "id") Integer id,
             JsonFriend friend) {
         JsonFriend jf = friend;
