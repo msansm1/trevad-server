@@ -24,11 +24,10 @@ public class FriendDAO extends Dao {
 
     public void saveFriend(Friend friend) {
         em.persist(friend);
-        em.refresh(friend);
     }
 
     public void removeFriend(Friend friend) {
-        em.remove(em.merge(friend));
+        em.remove(friend);
         em.flush();
     }
 

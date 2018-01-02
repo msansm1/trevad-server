@@ -83,7 +83,7 @@ public class TVShowServiceTest {
     public void callGetOne() throws Exception {
         Client client = ClientBuilder.newClient().register(ResteasyJackson2Provider.class);
 
-        JsonShow response = client.target(TestConstants.SERVER_ROOT + svc_root + "/1/loguser/1")
+        JsonShow response = client.target(TestConstants.SERVER_ROOT + svc_root + "/1")
                 .request(MediaType.APPLICATION_JSON).header(Constants.HTTP_HEADER_TOKEN, TestConstants.USER_TOKEN)
                 .get(JsonShow.class);
         assertEquals("Justified s01", response.getTitle());

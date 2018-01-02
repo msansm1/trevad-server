@@ -113,6 +113,7 @@ public class FriendService extends Application {
      */
     @GET
     @Path(value = "/{userId}/{id}/delete")
+    @Transactional(rollbackOn = Exception.class)
     public JsonSimpleResponse delete(@PathParam(value = "userId") Integer userId, @PathParam(value = "id") Integer id) {
         FriendPK fpk = new FriendPK();
         fpk.setFriend(id);

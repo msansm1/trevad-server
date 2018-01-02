@@ -83,7 +83,7 @@ public class FriendServiceTest {
         JsonFriend response = client.target(TestConstants.SERVER_ROOT + svc_root + "/1/2")
                 .request(MediaType.APPLICATION_JSON).header(Constants.HTTP_HEADER_TOKEN, TestConstants.USER_TOKEN)
                 .get(JsonFriend.class);
-        assertEquals("", response.getFriendLogin());
+        assertEquals("testarq", response.getFriendLogin());
     }
 
     /**
@@ -136,7 +136,7 @@ public class FriendServiceTest {
 
         assertTrue("Delete failed", response != null);
 
-        Response friend = client.target(TestConstants.SERVER_ROOT + svc_root + "/1/2")
+        Response friend = client.target(TestConstants.SERVER_ROOT + svc_root + "/1/3")
                 .request(MediaType.APPLICATION_JSON).header(Constants.HTTP_HEADER_TOKEN, TestConstants.USER_TOKEN)
                 .get();
         assertEquals("Must be 404", 404, friend.getStatus());

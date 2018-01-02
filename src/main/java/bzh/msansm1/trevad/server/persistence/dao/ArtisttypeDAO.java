@@ -25,7 +25,7 @@ public class ArtisttypeDAO extends Dao {
     }
 
     public void removeArtisttype(Artisttype artisttype) {
-        em.remove(em.merge(artisttype));
+        em.remove(artisttype);
         em.flush();
     }
 

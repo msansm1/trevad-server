@@ -102,6 +102,7 @@ public class AuthService extends Application {
      */
     @POST
     @Path("/logout")
+    @Transactional(rollbackOn = Exception.class)
     public String logoutUser(JsonAuth user) {
         User u = userDao.getUser(user.getId().intValue());
         u.setToken(null);
@@ -116,6 +117,7 @@ public class AuthService extends Application {
      */
     @POST
     @Path("/logout/mobile")
+    @Transactional(rollbackOn = Exception.class)
     public String logoutMobileUser(JsonAuth user) {
         User u = userDao.getUser(user.getId().intValue());
         u.setMobileToken(null);

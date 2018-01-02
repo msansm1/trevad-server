@@ -132,7 +132,7 @@ public class ArtistTypeServiceTest {
                 .request(MediaType.APPLICATION_JSON).header(Constants.HTTP_HEADER_TOKEN, TestConstants.USER_TOKEN)
                 .get(List.class);
 
-        JsonArtisttype artisttype = new JsonArtisttype(2, Constants.DELETED);
+        JsonArtisttype artisttype = new JsonArtisttype(6, Constants.DELETED);
         JsonArtisttype response = client.target(TestConstants.SERVER_ROOT + svc_root)
                 .request(MediaType.APPLICATION_JSON).header(Constants.HTTP_HEADER_TOKEN, TestConstants.USER_TOKEN)
                 .post(Entity.entity(artisttype, MediaType.APPLICATION_JSON), JsonArtisttype.class);

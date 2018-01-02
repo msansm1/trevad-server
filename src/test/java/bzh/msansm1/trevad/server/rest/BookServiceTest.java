@@ -80,7 +80,7 @@ public class BookServiceTest {
     public void callGetOne() throws Exception {
         Client client = ClientBuilder.newClient().register(ResteasyJackson2Provider.class);
 
-        JsonBook response = client.target(TestConstants.SERVER_ROOT + svc_root + "/1/loguser/1")
+        JsonBook response = client.target(TestConstants.SERVER_ROOT + svc_root + "/1")
                 .request(MediaType.APPLICATION_JSON).header(Constants.HTTP_HEADER_TOKEN, TestConstants.USER_TOKEN)
                 .get(JsonBook.class);
         assertEquals("The Hobbit", response.getTitle());

@@ -1,256 +1,274 @@
 package bzh.msansm1.trevad.server.persistence.model;
 
 import java.io.Serializable;
-import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 /**
  * The persistent class for the BOOK database table.
  * 
  */
 @Entity
-@Table(name="BOOK")
-@NamedQuery(name="Book.findAll", query="SELECT b FROM Book b")
+@Table(name = "BOOK")
+@NamedQuery(name = "Book.findAll", query = "SELECT b FROM Book b")
 public class Book implements Serializable {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(name="ID", unique=true, nullable=false)
-	private Integer id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "ID", unique = true, nullable = false)
+    private Integer id;
 
-	@Column(name="BOOKNB")
-	private Integer booknb;
+    @Column(name = "BOOKNB")
+    private Integer booknb;
 
-	@Column(name="COVER", length=45)
-	private String cover;
+    @Column(name = "COVER", length = 45)
+    private String cover;
 
-	@Column(name="DESCRIPTION", length=150)
-	private String description;
+    @Column(name = "DESCRIPTION", length = 150)
+    private String description;
 
-	@Column(name="ISSERIEDONE")
-	private Boolean isseriedone;
+    @Column(name = "ISSERIEDONE")
+    private Boolean isseriedone;
 
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name="PUBLICATIONDATE")
-	private Date publicationdate;
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "PUBLICATIONDATE")
+    private Date publicationdate;
 
-	@Column(name="SERIES", length=45)
-	private String series;
+    @Column(name = "SERIES", length = 45)
+    private String series;
 
-	@Column(name="TITLE", nullable=false, length=45)
-	private String title;
+    @Column(name = "TITLE", nullable = false, length = 45)
+    private String title;
 
-	//bi-directional many-to-one association to Booktype
-	@ManyToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name="TYPE")
-	private Booktype booktype;
+    // bi-directional many-to-one association to Booktype
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "TYPE")
+    private Booktype booktype;
 
-	//bi-directional many-to-one association to Collection
-	@ManyToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name="COLLECTION")
-	private Collection collectionBean;
+    // bi-directional many-to-one association to Collection
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "COLLECTION")
+    private Collection collectionBean;
 
-	//bi-directional many-to-one association to Editor
-	@ManyToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name="EDITOR")
-	private Editor editorBean;
+    // bi-directional many-to-one association to Editor
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "EDITOR")
+    private Editor editorBean;
 
-	//bi-directional many-to-one association to Lang
-	@ManyToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name="LANG")
-	private Lang langBean;
+    // bi-directional many-to-one association to Lang
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "LANG")
+    private Lang langBean;
 
-	//bi-directional many-to-one association to Storygenre
-	@ManyToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name="GENRE")
-	private Storygenre storygenre;
+    // bi-directional many-to-one association to Storygenre
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "GENRE")
+    private Storygenre storygenre;
 
-	//bi-directional many-to-one association to Bookartist
-	@OneToMany(mappedBy="bookBean")
-	private List<Bookartist> bookartists;
+    // bi-directional many-to-one association to Bookartist
+    @OneToMany(mappedBy = "bookBean", fetch = FetchType.EAGER)
+    @Fetch(value = FetchMode.SUBSELECT)
+    private List<Bookartist> bookartists;
 
-	//bi-directional many-to-one association to Loan
-	@OneToMany(mappedBy="bookBean")
-	private List<Loan> loans;
+    // bi-directional many-to-one association to Loan
+    @OneToMany(mappedBy = "bookBean", fetch = FetchType.EAGER)
+    @Fetch(value = FetchMode.SUBSELECT)
+    private List<Loan> loans;
 
-	//bi-directional many-to-one association to Userbook
-	@OneToMany(mappedBy="bookBean")
-	private List<Userbook> userbooks;
+    // bi-directional many-to-one association to Userbook
+    @OneToMany(mappedBy = "bookBean", fetch = FetchType.EAGER)
+    @Fetch(value = FetchMode.SUBSELECT)
+    private List<Userbook> userbooks;
 
-	public Book() {
-	}
+    public Book() {
+    }
 
-	public Integer getId() {
-		return this.id;
-	}
+    public Integer getId() {
+        return this.id;
+    }
 
-	public void setId(Integer id) {
-		this.id = id;
-	}
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
-	public Integer getBooknb() {
-		return this.booknb;
-	}
+    public Integer getBooknb() {
+        return this.booknb;
+    }
 
-	public void setBooknb(Integer booknb) {
-		this.booknb = booknb;
-	}
+    public void setBooknb(Integer booknb) {
+        this.booknb = booknb;
+    }
 
-	public String getCover() {
-		return this.cover;
-	}
+    public String getCover() {
+        return this.cover;
+    }
 
-	public void setCover(String cover) {
-		this.cover = cover;
-	}
+    public void setCover(String cover) {
+        this.cover = cover;
+    }
 
-	public String getDescription() {
-		return this.description;
-	}
+    public String getDescription() {
+        return this.description;
+    }
 
-	public void setDescription(String description) {
-		this.description = description;
-	}
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
-	public Boolean getIsseriedone() {
-		return this.isseriedone;
-	}
+    public Boolean getIsseriedone() {
+        return this.isseriedone;
+    }
 
-	public void setIsseriedone(Boolean isseriedone) {
-		this.isseriedone = isseriedone;
-	}
+    public void setIsseriedone(Boolean isseriedone) {
+        this.isseriedone = isseriedone;
+    }
 
-	public Date getPublicationdate() {
-		return this.publicationdate;
-	}
+    public Date getPublicationdate() {
+        return this.publicationdate;
+    }
 
-	public void setPublicationdate(Date publicationdate) {
-		this.publicationdate = publicationdate;
-	}
+    public void setPublicationdate(Date publicationdate) {
+        this.publicationdate = publicationdate;
+    }
 
-	public String getSeries() {
-		return this.series;
-	}
+    public String getSeries() {
+        return this.series;
+    }
 
-	public void setSeries(String series) {
-		this.series = series;
-	}
+    public void setSeries(String series) {
+        this.series = series;
+    }
 
-	public String getTitle() {
-		return this.title;
-	}
+    public String getTitle() {
+        return this.title;
+    }
 
-	public void setTitle(String title) {
-		this.title = title;
-	}
+    public void setTitle(String title) {
+        this.title = title;
+    }
 
-	public Booktype getBooktype() {
-		return this.booktype;
-	}
+    public Booktype getBooktype() {
+        return this.booktype;
+    }
 
-	public void setBooktype(Booktype booktype) {
-		this.booktype = booktype;
-	}
+    public void setBooktype(Booktype booktype) {
+        this.booktype = booktype;
+    }
 
-	public Collection getCollectionBean() {
-		return this.collectionBean;
-	}
+    public Collection getCollectionBean() {
+        return this.collectionBean;
+    }
 
-	public void setCollectionBean(Collection collectionBean) {
-		this.collectionBean = collectionBean;
-	}
+    public void setCollectionBean(Collection collectionBean) {
+        this.collectionBean = collectionBean;
+    }
 
-	public Editor getEditorBean() {
-		return this.editorBean;
-	}
+    public Editor getEditorBean() {
+        return this.editorBean;
+    }
 
-	public void setEditorBean(Editor editorBean) {
-		this.editorBean = editorBean;
-	}
+    public void setEditorBean(Editor editorBean) {
+        this.editorBean = editorBean;
+    }
 
-	public Lang getLangBean() {
-		return this.langBean;
-	}
+    public Lang getLangBean() {
+        return this.langBean;
+    }
 
-	public void setLangBean(Lang langBean) {
-		this.langBean = langBean;
-	}
+    public void setLangBean(Lang langBean) {
+        this.langBean = langBean;
+    }
 
-	public Storygenre getStorygenre() {
-		return this.storygenre;
-	}
+    public Storygenre getStorygenre() {
+        return this.storygenre;
+    }
 
-	public void setStorygenre(Storygenre storygenre) {
-		this.storygenre = storygenre;
-	}
+    public void setStorygenre(Storygenre storygenre) {
+        this.storygenre = storygenre;
+    }
 
-	public List<Bookartist> getBookartists() {
-		return this.bookartists;
-	}
+    public List<Bookartist> getBookartists() {
+        return this.bookartists;
+    }
 
-	public void setBookartists(List<Bookartist> bookartists) {
-		this.bookartists = bookartists;
-	}
+    public void setBookartists(List<Bookartist> bookartists) {
+        this.bookartists = bookartists;
+    }
 
-	public Bookartist addBookartist(Bookartist bookartist) {
-		getBookartists().add(bookartist);
-		bookartist.setBookBean(this);
+    public Bookartist addBookartist(Bookartist bookartist) {
+        getBookartists().add(bookartist);
+        bookartist.setBookBean(this);
 
-		return bookartist;
-	}
+        return bookartist;
+    }
 
-	public Bookartist removeBookartist(Bookartist bookartist) {
-		getBookartists().remove(bookartist);
-		bookartist.setBookBean(null);
+    public Bookartist removeBookartist(Bookartist bookartist) {
+        getBookartists().remove(bookartist);
+        bookartist.setBookBean(null);
 
-		return bookartist;
-	}
+        return bookartist;
+    }
 
-	public List<Loan> getLoans() {
-		return this.loans;
-	}
+    public List<Loan> getLoans() {
+        return this.loans;
+    }
 
-	public void setLoans(List<Loan> loans) {
-		this.loans = loans;
-	}
+    public void setLoans(List<Loan> loans) {
+        this.loans = loans;
+    }
 
-	public Loan addLoan(Loan loan) {
-		getLoans().add(loan);
-		loan.setBookBean(this);
+    public Loan addLoan(Loan loan) {
+        getLoans().add(loan);
+        loan.setBookBean(this);
 
-		return loan;
-	}
+        return loan;
+    }
 
-	public Loan removeLoan(Loan loan) {
-		getLoans().remove(loan);
-		loan.setBookBean(null);
+    public Loan removeLoan(Loan loan) {
+        getLoans().remove(loan);
+        loan.setBookBean(null);
 
-		return loan;
-	}
+        return loan;
+    }
 
-	public List<Userbook> getUserbooks() {
-		return this.userbooks;
-	}
+    public List<Userbook> getUserbooks() {
+        return this.userbooks;
+    }
 
-	public void setUserbooks(List<Userbook> userbooks) {
-		this.userbooks = userbooks;
-	}
+    public void setUserbooks(List<Userbook> userbooks) {
+        this.userbooks = userbooks;
+    }
 
-	public Userbook addUserbook(Userbook userbook) {
-		getUserbooks().add(userbook);
-		userbook.setBookBean(this);
+    public Userbook addUserbook(Userbook userbook) {
+        getUserbooks().add(userbook);
+        userbook.setBookBean(this);
 
-		return userbook;
-	}
+        return userbook;
+    }
 
-	public Userbook removeUserbook(Userbook userbook) {
-		getUserbooks().remove(userbook);
-		userbook.setBookBean(null);
+    public Userbook removeUserbook(Userbook userbook) {
+        getUserbooks().remove(userbook);
+        userbook.setBookBean(null);
 
-		return userbook;
-	}
+        return userbook;
+    }
 
 }

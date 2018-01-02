@@ -80,7 +80,7 @@ public class LangServiceTest {
         JsonLang response = client.target(TestConstants.SERVER_ROOT + svc_root + "/1")
                 .request(MediaType.APPLICATION_JSON).header(Constants.HTTP_HEADER_TOKEN, TestConstants.USER_TOKEN)
                 .get(JsonLang.class);
-        assertEquals("Français", response.getName());
+        assertEquals(Integer.valueOf(1), response.getId());
     }
 
     /**
