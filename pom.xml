@@ -14,7 +14,7 @@
 		<maven.compiler.target>1.8</maven.compiler.target>
 		<failOnMissingWebXml>false</failOnMissingWebXml>
 
-		<version.wildfly.swarm>2017.10.1</version.wildfly.swarm>
+		<version.wildfly.swarm>2017.12.1</version.wildfly.swarm>
 		<version.h2>1.4.193</version.h2>
 		<version.arquillian>1.1.13.Final</version.arquillian>
 		<version.maven-failsafe-plugin>2.19.1</version.maven-failsafe-plugin>
@@ -173,6 +173,9 @@
 			<plugin>
 				<artifactId>maven-failsafe-plugin</artifactId>
 				<version>${version.maven-failsafe-plugin}</version>
+			   <configuration>
+			      <argLine>-Dfile.encoding=UTF8</argLine>
+			   </configuration>
 				<executions>
 					<execution>
 						<goals>
@@ -181,6 +184,13 @@
 						</goals>
 					</execution>
 				</executions>
+			</plugin>
+			<plugin>
+			   <groupId>org.apache.maven.plugins</groupId>
+			   <artifactId>maven-surefire-plugin</artifactId>
+			   <configuration>
+			      <argLine>-Dfile.encoding=UTF8</argLine>
+			   </configuration>
 			</plugin>
 		</plugins>
 	</build>
