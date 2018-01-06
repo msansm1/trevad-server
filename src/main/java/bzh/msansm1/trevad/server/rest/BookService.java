@@ -7,7 +7,6 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
-import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -40,10 +39,13 @@ import bzh.msansm1.trevad.server.persistence.model.Collection;
 import bzh.msansm1.trevad.server.persistence.model.Userbook;
 import bzh.msansm1.trevad.server.persistence.model.UserbookPK;
 import bzh.msansm1.trevad.server.utils.Constants;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.Authorization;
 
 @ApplicationScoped
-@ApplicationPath("/services")
 @Path(value = "/books")
+@Api(value = "books", authorizations = { @Authorization(value = "token", scopes = {}) })
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 public class BookService extends Application {
@@ -78,6 +80,8 @@ public class BookService extends Application {
      * @return
      */
     @GET
+    @ApiOperation(value = "Retreive all books", notes = "Retreive all books", response = JsonBook.class,
+            responseContainer = "List")
     public List<JsonBook> getAllWithParams(@Context HttpServletRequest request, @QueryParam("from") int from,
             @QueryParam("limit") int limit, @QueryParam("orderBy") String orderBy,
             @QueryParam("orderDir") String orderDir) {
@@ -142,6 +146,8 @@ public class BookService extends Application {
      */
     @GET
     @Path(value = "user")
+    @ApiOperation(value = "Retreive all books for one user", notes = "Retreive all books for one user",
+            response = JsonBook.class, responseContainer = "List")
     public List<JsonBook> getUserBooks(@Context HttpServletRequest request, @QueryParam("from") int from,
             @QueryParam("limit") int limit, @QueryParam("orderBy") String orderBy,
             @QueryParam("orderDir") String orderDir, @QueryParam("userId") Integer userId) {
@@ -179,6 +185,7 @@ public class BookService extends Application {
      */
     @GET
     @Path(value = "{id}")
+    @ApiOperation(value = "Retreive one book", notes = "Retreive one book", response = JsonBook.class)
     public JsonBook getOne(@Context HttpServletRequest request, @PathParam(value = "id") Integer id) {
         Book b = bookDao.getBook(id);
         LOGGER.info("find " + b.getTitle() + " in the database");
@@ -234,6 +241,7 @@ public class BookService extends Application {
      * @return
      */
     @POST
+    @ApiOperation(value = "Create / update one book", notes = "Create / update one book", response = JsonBook.class)
     @Transactional(rollbackOn = Exception.class)
     public JsonBook createUpdateOne(JsonBook jb) {
         JsonBook jbook = jb;
@@ -384,6 +392,8 @@ public class BookService extends Application {
      */
     @POST
     @Path("addtocollec")
+    @ApiOperation(value = "Add book to user's collection", notes = "Add book to user's collection",
+            response = Response.class)
     @Transactional(rollbackOn = Exception.class)
     public Response addToCollection(JsonMyBook book) {
         Userbook ub = new Userbook();
@@ -407,6 +417,8 @@ public class BookService extends Application {
      */
     @POST
     @Path("removefromcollec")
+    @ApiOperation(value = "Remove book from user's collection", notes = "Remove book from user's collection",
+            response = Response.class)
     @Transactional(rollbackOn = Exception.class)
     public Response removeFromCollection(JsonMyBook book) {
         Userbook ub = new Userbook();

@@ -7,7 +7,6 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
-import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -35,10 +34,13 @@ import bzh.msansm1.trevad.server.persistence.model.Tvshow;
 import bzh.msansm1.trevad.server.persistence.model.Usertv;
 import bzh.msansm1.trevad.server.persistence.model.UsertvPK;
 import bzh.msansm1.trevad.server.utils.Constants;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.Authorization;
 
 @ApplicationScoped
-@ApplicationPath("/services")
 @Path(value = "/tvshows")
+@Api(value = "tvshows", authorizations = { @Authorization(value = "token", scopes = {}) })
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 public class TVShowService extends Application {
@@ -67,6 +69,8 @@ public class TVShowService extends Application {
      * @return
      */
     @GET
+    @ApiOperation(value = "Retreive all shows", notes = "Retreive all shows", response = JsonShow.class,
+            responseContainer = "List")
     public List<JsonShow> getAllWithParams(@Context HttpServletRequest request, @QueryParam("from") int from,
             @QueryParam("limit") int limit, @QueryParam("orderBy") String orderBy,
             @QueryParam("orderDir") String orderDir) {
@@ -94,6 +98,8 @@ public class TVShowService extends Application {
      */
     @GET
     @Path(value = "/user")
+    @ApiOperation(value = "Retreive shows for one user", notes = "Retreive shows for one user",
+            response = JsonShow.class, responseContainer = "List")
     public List<JsonShow> getUserShows(@Context HttpServletRequest request, @QueryParam("from") int from,
             @QueryParam("limit") int limit, @QueryParam("orderBy") String orderBy,
             @QueryParam("orderDir") String orderDir, @QueryParam("userId") Integer userId) {
@@ -108,6 +114,7 @@ public class TVShowService extends Application {
      */
     @GET
     @Path(value = "/{id}")
+    @ApiOperation(value = "Retreive one show", notes = "Retreive one show", response = JsonShow.class)
     public JsonShow getOne(@PathParam(value = "id") Integer id) {
         Tvshow s = showDao.getTvshow(id);
         LOGGER.info("find " + s.getTitle() + " show in the database");
@@ -126,6 +133,7 @@ public class TVShowService extends Application {
      * @return
      */
     @POST
+    @ApiOperation(value = "Create / update one show", notes = "Create / update one show", response = JsonShow.class)
     @Transactional(rollbackOn = Exception.class)
     public JsonShow createUpdateOne(JsonShow show) {
         JsonShow jshow = show;
@@ -252,6 +260,8 @@ public class TVShowService extends Application {
      */
     @POST
     @Path("addtocollec")
+    @ApiOperation(value = "Add tvshow to user's collection", notes = "Add tvshow to user's collection",
+            response = Response.class)
     @Transactional(rollbackOn = Exception.class)
     public Response addToCollection(JsonMyShow show) {
         Usertv ut = new Usertv();
@@ -274,6 +284,8 @@ public class TVShowService extends Application {
      */
     @POST
     @Path("removefromcollec")
+    @ApiOperation(value = "Remove tvshow to user's collection", notes = "Remove tvshow to user's collection",
+            response = Response.class)
     @Transactional(rollbackOn = Exception.class)
     public Response removeFromCollection(JsonMyShow show) {
         Usertv ut = new Usertv();

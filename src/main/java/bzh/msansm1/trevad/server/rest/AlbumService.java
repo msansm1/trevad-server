@@ -47,9 +47,13 @@ import bzh.msansm1.trevad.server.persistence.model.TrackartistPK;
 import bzh.msansm1.trevad.server.persistence.model.Useralbum;
 import bzh.msansm1.trevad.server.persistence.model.UseralbumPK;
 import bzh.msansm1.trevad.server.utils.Constants;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.Authorization;
 
 @ApplicationScoped
 @Path(value = "/albums")
+@Api(value = "albums", authorizations = { @Authorization(value = "token", scopes = {}) })
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 public class AlbumService extends Application {
@@ -89,6 +93,8 @@ public class AlbumService extends Application {
      * @return
      */
     @GET
+    @ApiOperation(value = "Retreive all albums", notes = "Retreive all albums", response = JsonAlbum.class,
+            responseContainer = "List")
     public List<JsonAlbum> getAllWithParams(@Context HttpServletRequest request, @QueryParam("from") int from,
             @QueryParam("limit") int limit, @QueryParam("orderBy") String orderBy,
             @QueryParam("orderDir") String orderDir) {
@@ -147,6 +153,8 @@ public class AlbumService extends Application {
      */
     @GET
     @Path(value = "user")
+    @ApiOperation(value = "Retrieve albums for one user", notes = "Retrieve albums for one user",
+            response = JsonAlbum.class, responseContainer = "List")
     public List<JsonAlbum> getUserAlbums(@Context HttpServletRequest request, @QueryParam("from") int from,
             @QueryParam("limit") int limit, @QueryParam("orderBy") String orderBy,
             @QueryParam("orderDir") String orderDir, @QueryParam("userId") Integer userId) {
@@ -190,6 +198,7 @@ public class AlbumService extends Application {
      */
     @GET
     @Path(value = "{id}")
+    @ApiOperation(value = "Retrieve one album", notes = "Retrieve one album", response = JsonAlbum.class)
     public JsonAlbum getOne(@Context HttpServletRequest request, @PathParam(value = "id") Integer id) {
         Album a = albumDao.getAlbum(id);
         LOGGER.info("find " + a.getTitle() + " album in the database");
@@ -239,6 +248,7 @@ public class AlbumService extends Application {
      * @return
      */
     @POST
+    @ApiOperation(value = "Create / update one album", notes = "Create / update one album", response = JsonAlbum.class)
     @Transactional(rollbackOn = Exception.class)
     public JsonAlbum createUpdateOne(JsonAlbum album) {
         JsonAlbum ja = album;
@@ -364,6 +374,8 @@ public class AlbumService extends Application {
      * @return
      */
     @GET
+    @ApiOperation(value = "Retrieve all tracks for one album", notes = "Retrieve all tracks for one album",
+            response = JsonTrack.class, responseContainer = "List")
     @Path("/{albumId}/tracks")
     public List<JsonTrack> getAlbumTracks(@PathParam(value = "albumId") Integer albumId) {
         List<Track> tracks = trackDao.getTracksForAlbum(albumId);
@@ -469,6 +481,8 @@ public class AlbumService extends Application {
      */
     @POST
     @Path("removefromcollec")
+    @ApiOperation(value = "Remove album from user's collection", notes = "Remove album from user's collection",
+            response = Response.class)
     @Transactional(rollbackOn = Exception.class)
     public Response removeFromCollection(JsonMyAlbum album) {
         Useralbum ua = new Useralbum();
