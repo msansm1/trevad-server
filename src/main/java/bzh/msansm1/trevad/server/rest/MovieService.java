@@ -7,7 +7,6 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
-import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -38,10 +37,13 @@ import bzh.msansm1.trevad.server.persistence.model.Movieartist;
 import bzh.msansm1.trevad.server.persistence.model.Usermovie;
 import bzh.msansm1.trevad.server.persistence.model.UsermoviePK;
 import bzh.msansm1.trevad.server.utils.Constants;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.Authorization;
 
 @ApplicationScoped
-@ApplicationPath("/services")
 @Path(value = "/movies")
+@Api(value = "movies", authorizations = { @Authorization(value = "token", scopes = {}) })
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 public class MovieService extends Application {
@@ -70,6 +72,8 @@ public class MovieService extends Application {
      * @return
      */
     @GET
+    @ApiOperation(value = "Retreive all movies", notes = "Retreive all movies", response = JsonMovie.class,
+            responseContainer = "List")
     public List<JsonMovie> getAllWithParams(@Context HttpServletRequest request, @QueryParam("from") int from,
             @QueryParam("limit") int limit, @QueryParam("orderBy") String orderBy,
             @QueryParam("orderDir") String orderDir) {
@@ -98,7 +102,7 @@ public class MovieService extends Application {
     }
 
     /**
-     * GET /movies/user : retrieve movie for one user
+     * GET /movies/user : retrieve movies for one user
      * 
      * @param id
      *            - user ID
@@ -106,6 +110,8 @@ public class MovieService extends Application {
      */
     @GET
     @Path(value = "user")
+    @ApiOperation(value = "Retreive movies for one user", notes = "Retreive movies for one user",
+            response = JsonMovie.class, responseContainer = "List")
     public List<JsonMovie> getAllWithParams(@Context HttpServletRequest request, @QueryParam("from") int from,
             @QueryParam("limit") int limit, @QueryParam("orderBy") String orderBy,
             @QueryParam("orderDir") String orderDir, @QueryParam("userId") Integer userId) {
@@ -138,6 +144,7 @@ public class MovieService extends Application {
      */
     @GET
     @Path(value = "/{id}")
+    @ApiOperation(value = "Retreive one movie", notes = "Retreive one movie", response = JsonMovie.class)
     public JsonMovie getOne(@PathParam(value = "id") Integer id) {
         JsonMovie jm = movieDao.getJsonMovie(id);
         LOGGER.info("find " + jm.getTitle() + " movie in the database");
@@ -162,6 +169,7 @@ public class MovieService extends Application {
      * @return
      */
     @POST
+    @ApiOperation(value = "Create / update one movie", notes = "Create / update one movie", response = JsonMovie.class)
     @Transactional(rollbackOn = Exception.class)
     public JsonMovie createUpdateOne(JsonMovie movie) {
         JsonMovie jmovie = movie;
@@ -282,6 +290,8 @@ public class MovieService extends Application {
      */
     @POST
     @Path("addtocollec")
+    @ApiOperation(value = "Add movie to user's collection", notes = "Add movie to user's collection",
+            response = Response.class)
     @Transactional(rollbackOn = Exception.class)
     public Response addToCollection(JsonMyMovie movie) {
         Usermovie um = new Usermovie();
@@ -304,6 +314,8 @@ public class MovieService extends Application {
      */
     @POST
     @Path("removefromcollec")
+    @ApiOperation(value = "Remove movie to user's collection", notes = "Remove movie to user's collection",
+            response = Response.class)
     @Transactional(rollbackOn = Exception.class)
     public Response removeFromCollection(JsonMyMovie movie) {
         Usermovie um = new Usermovie();
