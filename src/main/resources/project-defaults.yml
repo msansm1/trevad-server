@@ -3,7 +3,7 @@ swarm:
     data-sources:
       TrevadDS:
         driver-name: mysql
-        connection-url: jdbc:mysql://localhost:3306/meddb
+        connection-url: jdbc:mysql://localhost:3306/meddb?autoReconnect=true&useSSL=false
         user-name: sa
         password: sa
         jta : true
@@ -15,8 +15,3 @@ swarm:
         background-validation: true
         exception-sorter-class-name: org.jboss.jca.adapters.jdbc.extensions.mysql.MySQLExceptionSorter
         connection-properties: CharacterEncoding/ UTF-8 UseUnicode/true
-    jdbc-drivers:
-      mysql:
-        driver-class-name: com.mysql.jdbc.Driver
-        xa-datasource-class-name: com.mysql.jdbc.jdbc2.optional.MysqlXADataSource
-        driver-module-name: com.mysql
