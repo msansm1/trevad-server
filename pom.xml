@@ -103,6 +103,10 @@
 			<groupId>org.wildfly.swarm</groupId>
 			<artifactId>transactions</artifactId>
 		</dependency>
+	    <dependency>
+	      <groupId>org.wildfly.swarm</groupId>
+	      <artifactId>datasources</artifactId>
+		</dependency>
 
 		<!-- Problem : at run exception RESTEASY003190 <dependency> <groupId>org.wildfly.swarm</groupId> 
 			<artifactId>jaxrs-multipart</artifactId> </dependency> -->
@@ -123,6 +127,7 @@
 			<groupId>com.h2database</groupId>
 			<artifactId>h2</artifactId>
 			<version>${version.h2}</version>
+			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>mysql</groupId>
