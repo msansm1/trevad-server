@@ -14,12 +14,12 @@
 		<maven.compiler.target>1.8</maven.compiler.target>
 		<failOnMissingWebXml>false</failOnMissingWebXml>
 
-		<version.wildfly.swarm>2017.12.1</version.wildfly.swarm>
+		<version.wildfly.swarm>2018.2.0.Final</version.wildfly.swarm>
 		<version.h2>1.4.193</version.h2>
 		<version.arquillian>1.1.13.Final</version.arquillian>
 		<version.maven-failsafe-plugin>2.19.1</version.maven-failsafe-plugin>
 		<hibernate.version>5.2.4.Final</hibernate.version>
-		<version.mysql>5.1.44</version.mysql>
+		<version.mysql>5.1.45</version.mysql>
 		<version.commonsconfig>2.1.1</version.commonsconfig>
 		<version.resteasy>3.0.19.Final</version.resteasy>
 	</properties>
@@ -85,10 +85,6 @@
 		</dependency>
 		<dependency>
 			<groupId>org.wildfly.swarm</groupId>
-			<artifactId>jaxrs-validator</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.wildfly.swarm</groupId>
 			<artifactId>jpa</artifactId>
 		</dependency>
 		<dependency>
@@ -110,12 +106,25 @@
 
 		<!-- Problem : at run exception RESTEASY003190 <dependency> <groupId>org.wildfly.swarm</groupId> 
 			<artifactId>jaxrs-multipart</artifactId> </dependency> -->
-
+        
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-core</artifactId>
+			<version>${hibernate.version}</version>
+            <scope>provided</scope>
+        </dependency>
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-entitymanager</artifactId>
 			<version>${hibernate.version}</version>
+            <scope>provided</scope>
 		</dependency>
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-validator</artifactId>
+			<version>${hibernate.version}</version>
+            <scope>provided</scope>
+        </dependency>
 
 		<dependency>
 			<groupId>org.apache.commons</groupId>
@@ -129,6 +138,7 @@
 			<version>${version.h2}</version>
 			<scope>test</scope>
 		</dependency>
+		
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
