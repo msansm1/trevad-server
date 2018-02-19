@@ -23,7 +23,6 @@ import bzh.msansm1.trevad.server.persistence.model.User;
 import bzh.msansm1.trevad.server.utils.Crypt;
 
 @ApplicationScoped
-@ApplicationPath("/services")
 @Path(value = "/admin/users")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)

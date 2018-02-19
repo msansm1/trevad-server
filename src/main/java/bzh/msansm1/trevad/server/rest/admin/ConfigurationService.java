@@ -18,7 +18,6 @@ import bzh.msansm1.trevad.server.json.admin.JsonConfParam;
 import bzh.msansm1.trevad.server.persistence.dao.ConfigurationDAO;
 
 @ApplicationScoped
-@ApplicationPath("/services")
 @Path(value = "/admin/conf")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)

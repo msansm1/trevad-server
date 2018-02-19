@@ -6,7 +6,6 @@ import java.util.List;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.transaction.Transactional;
-import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -28,7 +27,6 @@ import bzh.msansm1.trevad.server.persistence.model.Trackartist;
 import bzh.msansm1.trevad.server.persistence.model.TrackartistPK;
 
 @ApplicationScoped
-@ApplicationPath("/services")
 @Path(value = "/tracks")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)

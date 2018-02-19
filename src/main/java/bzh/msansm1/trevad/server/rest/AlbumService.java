@@ -93,8 +93,7 @@ public class AlbumService extends Application {
      * @return
      */
     @GET
-    @ApiOperation(value = "Retreive all albums", notes = "Retreive all albums", response = JsonAlbum.class,
-            responseContainer = "List")
+    @ApiOperation(value = "Retreive all albums", notes = "Retreive all albums", response = JsonAlbum.class, responseContainer = "List")
     public List<JsonAlbum> getAllWithParams(@Context HttpServletRequest request, @QueryParam("from") int from,
             @QueryParam("limit") int limit, @QueryParam("orderBy") String orderBy,
             @QueryParam("orderDir") String orderDir) {
@@ -153,8 +152,7 @@ public class AlbumService extends Application {
      */
     @GET
     @Path(value = "user")
-    @ApiOperation(value = "Retrieve albums for one user", notes = "Retrieve albums for one user",
-            response = JsonAlbum.class, responseContainer = "List")
+    @ApiOperation(value = "Retrieve albums for one user", notes = "Retrieve albums for one user", response = JsonAlbum.class, responseContainer = "List")
     public List<JsonAlbum> getUserAlbums(@Context HttpServletRequest request, @QueryParam("from") int from,
             @QueryParam("limit") int limit, @QueryParam("orderBy") String orderBy,
             @QueryParam("orderDir") String orderDir, @QueryParam("userId") Integer userId) {
@@ -374,8 +372,7 @@ public class AlbumService extends Application {
      * @return
      */
     @GET
-    @ApiOperation(value = "Retrieve all tracks for one album", notes = "Retrieve all tracks for one album",
-            response = JsonTrack.class, responseContainer = "List")
+    @ApiOperation(value = "Retrieve all tracks for one album", notes = "Retrieve all tracks for one album", response = JsonTrack.class, responseContainer = "List")
     @Path("/{albumId}/tracks")
     public List<JsonTrack> getAlbumTracks(@PathParam(value = "albumId") Integer albumId) {
         List<Track> tracks = trackDao.getTracksForAlbum(albumId);
@@ -481,8 +478,7 @@ public class AlbumService extends Application {
      */
     @POST
     @Path("removefromcollec")
-    @ApiOperation(value = "Remove album from user's collection", notes = "Remove album from user's collection",
-            response = Response.class)
+    @ApiOperation(value = "Remove album from user's collection", notes = "Remove album from user's collection", response = Response.class)
     @Transactional(rollbackOn = Exception.class)
     public Response removeFromCollection(JsonMyAlbum album) {
         Useralbum ua = new Useralbum();

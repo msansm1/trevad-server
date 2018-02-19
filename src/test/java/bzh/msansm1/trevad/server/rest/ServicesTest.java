@@ -1786,7 +1786,7 @@ public class ServicesTest {
     /**************************************************************************************/
     /**************************************************************************************/
 
-    private static final String svc_tvshow_root = "/services/tvshows";
+    private static final String svc_tvshow_root = "/api/v1/tvshows";
 
     /**
      * Test for /services/tvshows GET Test OK

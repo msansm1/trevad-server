@@ -3,7 +3,6 @@ package bzh.msansm1.trevad.server.rest;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
-import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -34,7 +33,6 @@ import bzh.msansm1.trevad.server.utils.Constants;
  * 
  */
 @ApplicationScoped
-@ApplicationPath("/services")
 @Path(value = "/home")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
