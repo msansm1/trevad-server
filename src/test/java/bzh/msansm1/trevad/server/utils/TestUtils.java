@@ -4,6 +4,7 @@ import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 
 import bzh.msansm1.trevad.server.conf.ClientMessage;
+import bzh.msansm1.trevad.server.db.DatabaseMigrationService;
 import bzh.msansm1.trevad.server.error.TrevadError;
 import bzh.msansm1.trevad.server.interceptor.RestRequestFilter;
 import bzh.msansm1.trevad.server.json.JsonClientMsg;
@@ -37,7 +38,8 @@ public class TestUtils {
                 .addPackage(JsonLogin.class.getPackage()).addPackage(JsonArtist.class.getPackage())
                 .addPackage(JsonAdminUser.class.getPackage()).addPackage(AdminUserService.class.getPackage())
                 .addPackage(JsonCollectionStats.class.getPackage()).addPackage(JsonConfParam.class.getPackage())
-                .addPackage(JsonFriend.class.getPackage()).addAsResource("project-test.yml", "project-defaults.yml")
+                .addPackage(DatabaseMigrationService.class.getPackage()).addPackage(JsonFriend.class.getPackage())
+                .addAsResource("project-test.yml", "project-defaults.yml")
                 .addAsResource("META-INF/test-persistence.xml", "META-INF/persistence.xml")
                 .addAsResource("META-INF/load.sql", "META-INF/load.sql");
     }

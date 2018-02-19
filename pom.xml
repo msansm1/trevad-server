@@ -22,6 +22,7 @@
 		<version.mysql>5.1.45</version.mysql>
 		<version.commonsconfig>2.1.1</version.commonsconfig>
 		<version.resteasy>3.0.19.Final</version.resteasy>
+		<version.flyway>5.0.6</version.flyway>
 	</properties>
 
 	<repositories>
@@ -99,41 +100,50 @@
 			<groupId>org.wildfly.swarm</groupId>
 			<artifactId>transactions</artifactId>
 		</dependency>
-	    <dependency>
-	      <groupId>org.wildfly.swarm</groupId>
-	      <artifactId>datasources</artifactId>
+		<dependency>
+			<groupId>org.wildfly.swarm</groupId>
+			<artifactId>datasources</artifactId>
 		</dependency>
 		<dependency>
-		  <groupId>org.wildfly.swarm</groupId>
-		  <artifactId>flyway</artifactId>
+			<groupId>org.wildfly.swarm</groupId>
+			<artifactId>logging</artifactId>
 		</dependency>
+
+
 
 		<!-- Problem : at run exception RESTEASY003190 <dependency> <groupId>org.wildfly.swarm</groupId> 
 			<artifactId>jaxrs-multipart</artifactId> </dependency> -->
-        
-        <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-core</artifactId>
+
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-core</artifactId>
 			<version>${hibernate.version}</version>
-            <scope>provided</scope>
-        </dependency>
+			<scope>provided</scope>
+		</dependency>
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-entitymanager</artifactId>
 			<version>${hibernate.version}</version>
-            <scope>provided</scope>
+			<scope>provided</scope>
 		</dependency>
-        <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-validator</artifactId>
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-validator</artifactId>
 			<version>${hibernate.version}</version>
-            <scope>provided</scope>
-        </dependency>
+			<scope>provided</scope>
+		</dependency>
 
 		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-configuration2</artifactId>
 			<version>${version.commonsconfig}</version>
+		</dependency>
+
+
+		<dependency>
+			<groupId>org.flywaydb</groupId>
+			<artifactId>flyway-core</artifactId>
+			<version>${version.flyway}</version>
 		</dependency>
 
 		<dependency>
@@ -142,7 +152,7 @@
 			<version>${version.h2}</version>
 			<scope>test</scope>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
@@ -192,9 +202,9 @@
 			<plugin>
 				<artifactId>maven-failsafe-plugin</artifactId>
 				<version>${version.maven-failsafe-plugin}</version>
-			   <configuration>
-			      <argLine>-Dfile.encoding=UTF8</argLine>
-			   </configuration>
+				<configuration>
+					<argLine>-Dfile.encoding=UTF8</argLine>
+				</configuration>
 				<executions>
 					<execution>
 						<goals>
@@ -205,11 +215,11 @@
 				</executions>
 			</plugin>
 			<plugin>
-			   <groupId>org.apache.maven.plugins</groupId>
-			   <artifactId>maven-surefire-plugin</artifactId>
-			   <configuration>
-			      <argLine>-Dfile.encoding=UTF8</argLine>
-			   </configuration>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<configuration>
+					<argLine>-Dfile.encoding=UTF8</argLine>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>

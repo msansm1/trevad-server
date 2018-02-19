@@ -15,3 +15,13 @@ swarm:
         background-validation: true
         exception-sorter-class-name: org.jboss.jca.adapters.jdbc.extensions.mysql.MySQLExceptionSorter
         connection-properties: CharacterEncoding/ UTF-8 UseUnicode/true
+  logging:
+    pattern-formatters:
+      MY_PATTERN:
+        pattern: "%K{level}%d{yyyy-MM-dd HH:mm:ss,SSS} %-5p [%c] (%t) (ZZ:%X{ZZZZ}) %s%e%n"
+    console-handlers:
+      CONSOLE:
+        named-formatter: MY_PATTERN
+    root-logger:
+      handlers:
+        - CONSOLE
