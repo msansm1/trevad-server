@@ -51,7 +51,7 @@ public class RestRequestFilter implements ContainerRequestFilter {
             // }
             // }
         } else if (!path.equals("/auth/login") && !path.equals("/auth/login/mobile") && !path.equals("/auth/lostpasswd")
-                && !path.startsWith("/setupApp")) {
+                && !path.startsWith("/setupApp") && !path.startsWith("/swagger.json")) {
             String authToken = requestCtx.getHeaderString(Constants.HTTP_HEADER_TOKEN);
             Integer userId = userDao.tokenExists(authToken);
 
