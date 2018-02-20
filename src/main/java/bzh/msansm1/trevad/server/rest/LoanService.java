@@ -29,9 +29,13 @@ import bzh.msansm1.trevad.server.persistence.dao.MovieDAO;
 import bzh.msansm1.trevad.server.persistence.dao.TvshowDAO;
 import bzh.msansm1.trevad.server.persistence.dao.UserDAO;
 import bzh.msansm1.trevad.server.persistence.model.Loan;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.Authorization;
 
 @ApplicationScoped
 @Path(value = "/loans")
+@Api(value = "loans", authorizations = { @Authorization(value = "token", scopes = {}) })
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 public class LoanService extends Application {
@@ -62,6 +66,7 @@ public class LoanService extends Application {
      */
     @GET
     @Path(value = "/loanto/{userId}")
+    @ApiOperation(value = "retrieve all loans to an user with params", notes = "retrieve all loans to an user with params", response = JsonLoan.class, responseContainer = "List")
     public List<JsonLoan> getAllWithParams(@Context HttpServletRequest request,
             @PathParam(value = "userId") Integer userId, @QueryParam("from") int from, @QueryParam("limit") int limit,
             @QueryParam("orderBy") String orderBy, @QueryParam("orderDir") String orderDir) {
@@ -77,6 +82,7 @@ public class LoanService extends Application {
      */
     @GET
     @Path(value = "/borrow/{userId}")
+    @ApiOperation(value = "retrieve all borrows of an user", notes = "retrieve all borrows of an user", response = JsonLoan.class, responseContainer = "List")
     public List<JsonLoan> getLends(@PathParam(value = "userId") Integer userId) {
         List<Loan> ll = userDAO.getUser(userId).getLoans1();
         return getJsonLoansFromLoans(userId, ll);
@@ -90,6 +96,7 @@ public class LoanService extends Application {
      */
     @GET
     @Path(value = "{id}")
+    @ApiOperation(value = "Retrieve one loan", notes = "Retrieve one loan", response = JsonLoan.class)
     public Response getOne(@PathParam(value = "id") Integer id) {
         Loan l = loanDAO.getLoan(id);
         if (l == null) {
@@ -126,6 +133,7 @@ public class LoanService extends Application {
      * @return
      */
     @POST
+    @ApiOperation(value = "Create / update one loan", notes = "Create / update one loan", response = JsonLoan.class)
     @Transactional(rollbackOn = Exception.class)
     public JsonLoan getOne(JsonLoan loan) {
         JsonLoan jl = loan;

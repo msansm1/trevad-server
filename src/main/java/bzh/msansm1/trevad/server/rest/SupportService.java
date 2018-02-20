@@ -21,9 +21,13 @@ import bzh.msansm1.trevad.server.json.JsonSupport;
 import bzh.msansm1.trevad.server.persistence.dao.SupportDAO;
 import bzh.msansm1.trevad.server.persistence.model.Support;
 import bzh.msansm1.trevad.server.utils.Constants;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.Authorization;
 
 @ApplicationScoped
 @Path(value = "/supports")
+@Api(value = "supports", authorizations = { @Authorization(value = "token", scopes = {}) })
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 public class SupportService extends Application {
@@ -42,6 +46,7 @@ public class SupportService extends Application {
      * @return
      */
     @GET
+    @ApiOperation(value = "Retreive all supports", notes = "Retreive all supports", response = JsonSupport.class, responseContainer = "List")
     public List<JsonSupport> getAll() {
         List<Support> supports = supportDao.getSupports();
         LOGGER.info("find " + supports.size() + " supports in the database");
@@ -60,6 +65,7 @@ public class SupportService extends Application {
      */
     @GET
     @Path(value = "/{id}")
+    @ApiOperation(value = "Retrieve one support", notes = "Retrieve one support", response = JsonSupport.class)
     public JsonSupport getOne(@PathParam(value = "id") Integer id) {
         Support s = supportDao.getSupport(id);
         LOGGER.info("find " + s.getName() + " support in the database");
@@ -74,6 +80,7 @@ public class SupportService extends Application {
      * @return
      */
     @POST
+    @ApiOperation(value = "Create / update one support", notes = "Create / update one support", response = JsonSupport.class)
     @Transactional(rollbackOn = Exception.class)
     public JsonSupport createUpdateOne(JsonSupport support) {
         JsonSupport jsupport = support;

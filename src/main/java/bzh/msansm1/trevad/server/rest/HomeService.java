@@ -25,6 +25,9 @@ import bzh.msansm1.trevad.server.persistence.dao.TvshowDAO;
 import bzh.msansm1.trevad.server.persistence.dao.UserDAO;
 import bzh.msansm1.trevad.server.persistence.model.User;
 import bzh.msansm1.trevad.server.utils.Constants;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.Authorization;
 
 /**
  * Auth service (/services/auth)
@@ -34,6 +37,7 @@ import bzh.msansm1.trevad.server.utils.Constants;
  */
 @ApplicationScoped
 @Path(value = "/home")
+@Api(value = "home", authorizations = { @Authorization(value = "token", scopes = {}) })
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 public class HomeService extends Application {
@@ -61,6 +65,7 @@ public class HomeService extends Application {
      */
     @GET
     @Path("/mycollec")
+    @ApiOperation(value = "collection stats for an user", notes = "collection stats for an user", response = JsonCollectionStats.class)
     public JsonCollectionStats userStats(@Context HttpServletRequest request) {
         JsonCollectionStats stats = new JsonCollectionStats();
         User user = userDao.getUserByToken(request.getHeader(Constants.HTTP_HEADER_TOKEN));
@@ -85,6 +90,7 @@ public class HomeService extends Application {
      */
     @GET
     @Path("/allcollec")
+    @ApiOperation(value = "collection stats (for all database)", notes = "collection stats (for all database)", response = JsonCollectionStats.class)
     public JsonCollectionStats allStats() {
         JsonCollectionStats stats = new JsonCollectionStats();
         stats.setAlbums(new AlbumStats(Long.valueOf(albumDAO.getAlbums().size())));

@@ -15,6 +15,9 @@ import org.jboss.logging.Logger;
 
 import bzh.msansm1.trevad.server.db.DatabaseMigrationService;
 import bzh.msansm1.trevad.server.json.JsonSimpleResponse;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.Authorization;
 
 /**
  * Setup service (/api/V1/setupApp)
@@ -24,6 +27,7 @@ import bzh.msansm1.trevad.server.json.JsonSimpleResponse;
  */
 @ApplicationScoped
 @Path(value = "/setupApp")
+@Api(value = "setupApp", authorizations = { @Authorization(value = "token", scopes = {}) })
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 public class SetupService extends Application {
@@ -43,6 +47,7 @@ public class SetupService extends Application {
      */
     @GET
     @Path("/initdb")
+    @ApiOperation(value = "Init / migrate database model", notes = "Init / migrate database model", response = JsonSimpleResponse.class)
     public JsonSimpleResponse userStats(@Context HttpServletRequest request) {
         dbMigrationService.performDatabaseMigration();
         return new JsonSimpleResponse(true);

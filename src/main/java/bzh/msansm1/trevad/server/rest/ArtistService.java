@@ -21,9 +21,13 @@ import bzh.msansm1.trevad.server.json.artist.JsonArtist;
 import bzh.msansm1.trevad.server.persistence.dao.ArtistDAO;
 import bzh.msansm1.trevad.server.persistence.dao.ArtisttypeDAO;
 import bzh.msansm1.trevad.server.persistence.model.Artist;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.Authorization;
 
 @ApplicationScoped
 @Path(value = "/artists")
+@Api(value = "artists", authorizations = { @Authorization(value = "token", scopes = {}) })
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 public class ArtistService extends Application {
@@ -44,6 +48,7 @@ public class ArtistService extends Application {
      * @return
      */
     @GET
+    @ApiOperation(value = "Retreive all artists", notes = "Retreive all artists", response = JsonArtist.class, responseContainer = "List")
     public List<JsonArtist> getAll() {
         List<Artist> artists = artistDao.getArtists();
         LOGGER.info("find " + artists.size() + " artists in the database");
@@ -63,6 +68,7 @@ public class ArtistService extends Application {
      */
     @GET
     @Path(value = "/{id}")
+    @ApiOperation(value = "Retrieve one artist", notes = "Retrieve one artist", response = JsonArtist.class)
     public JsonArtist getOne(@PathParam(value = "id") Integer id) {
         Artist a = artistDao.getArtist(id);
         LOGGER.info("find " + a.getName() + " artist in the database");
@@ -78,6 +84,7 @@ public class ArtistService extends Application {
      * @return
      */
     @POST
+    @ApiOperation(value = "Create / update one artist", notes = "Create / update one artist", response = JsonArtist.class)
     @Transactional(rollbackOn = Exception.class)
     public JsonArtist createUpdateOne(JsonArtist artist) {
         JsonArtist jartist = artist;
@@ -113,6 +120,7 @@ public class ArtistService extends Application {
      */
     @GET
     @Path("/albums")
+    @ApiOperation(value = "Retreive all album artists", notes = "Retreive all album artists", response = JsonArtist.class, responseContainer = "List")
     public List<JsonArtist> getAllForAlbums() {
         List<Artist> artists = artistDao.getArtistsForAlbum();
         LOGGER.info("find " + artists.size() + " album artists in the database");
@@ -131,6 +139,7 @@ public class ArtistService extends Application {
      */
     @GET
     @Path("/books")
+    @ApiOperation(value = "Retreive all book artists", notes = "Retreive all book artists", response = JsonArtist.class, responseContainer = "List")
     public List<JsonArtist> getAllForBooks() {
         List<Artist> artists = artistDao.getArtistsForBook();
         LOGGER.info("find " + artists.size() + " book artists in the database");
@@ -149,6 +158,7 @@ public class ArtistService extends Application {
      */
     @GET
     @Path("/movies")
+    @ApiOperation(value = "Retreive all movie artists", notes = "Retreive all movie artists", response = JsonArtist.class, responseContainer = "List")
     public List<JsonArtist> getAllForMovies() {
         List<Artist> artists = artistDao.getArtistsForMovie();
         LOGGER.info("find " + artists.size() + " movi artists in the database");
@@ -161,12 +171,13 @@ public class ArtistService extends Application {
     }
 
     /**
-     * GET /series : retrieve all book artists
+     * GET /series : retrieve all tvshows artists
      * 
      * @return
      */
     @GET
     @Path("/series")
+    @ApiOperation(value = "Retreive all tvshows artists", notes = "Retreive all tvshows artists", response = JsonArtist.class, responseContainer = "List")
     public List<JsonArtist> getAllForSeries() {
         List<Artist> artists = artistDao.getArtistsForSeries();
         LOGGER.info("find " + artists.size() + " series artists in the database");

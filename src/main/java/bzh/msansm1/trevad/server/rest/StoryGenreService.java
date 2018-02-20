@@ -21,9 +21,13 @@ import bzh.msansm1.trevad.server.json.JsonStorygenre;
 import bzh.msansm1.trevad.server.persistence.dao.StorygenreDAO;
 import bzh.msansm1.trevad.server.persistence.model.Storygenre;
 import bzh.msansm1.trevad.server.utils.Constants;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.Authorization;
 
 @ApplicationScoped
 @Path(value = "/storygenres")
+@Api(value = "storygenres", authorizations = { @Authorization(value = "token", scopes = {}) })
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 public class StoryGenreService extends Application {
@@ -42,6 +46,7 @@ public class StoryGenreService extends Application {
      * @return
      */
     @GET
+    @ApiOperation(value = "Retreive all storygenres", notes = "Retreive all storygenres", response = JsonStorygenre.class, responseContainer = "List")
     public List<JsonStorygenre> getAll() {
         List<Storygenre> storygenres = storygenreDao.getStorygenres();
         LOGGER.info("find " + storygenres.size() + " storygenres in the database");
@@ -60,6 +65,7 @@ public class StoryGenreService extends Application {
      */
     @GET
     @Path(value = "/{id}")
+    @ApiOperation(value = "Retrieve one storygenre", notes = "Retrieve one storygenre", response = JsonStorygenre.class)
     public JsonStorygenre getOne(@PathParam(value = "id") Integer id) {
         Storygenre s = storygenreDao.getStorygenre(id);
         LOGGER.info("find " + s.getName() + " storygenre in the database");
@@ -74,6 +80,7 @@ public class StoryGenreService extends Application {
      * @return
      */
     @POST
+    @ApiOperation(value = "Create / update one storygenre", notes = "Create / update one storygenre", response = JsonStorygenre.class)
     @Transactional(rollbackOn = Exception.class)
     public JsonStorygenre createUpdateOne(JsonStorygenre storygenre) {
         JsonStorygenre jstorygenre = storygenre;

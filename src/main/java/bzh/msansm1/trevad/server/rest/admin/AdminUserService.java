@@ -5,7 +5,6 @@ import java.util.List;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
-import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -21,9 +20,13 @@ import bzh.msansm1.trevad.server.json.admin.user.JsonAdminUser;
 import bzh.msansm1.trevad.server.persistence.dao.UserDAO;
 import bzh.msansm1.trevad.server.persistence.model.User;
 import bzh.msansm1.trevad.server.utils.Crypt;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.Authorization;
 
 @ApplicationScoped
 @Path(value = "/admin/users")
+@Api(value = "admin/users", authorizations = { @Authorization(value = "token", scopes = {}) })
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 public class AdminUserService extends Application {
@@ -42,6 +45,7 @@ public class AdminUserService extends Application {
      * @return
      */
     @GET
+    @ApiOperation(value = "Retreive all users", notes = "Retreive all users", response = JsonAdminUser.class, responseContainer = "List")
     public List<JsonAdminUser> getAll() {
         List<User> users = userDao.getUsers();
         LOGGER.info("find " + users.size() + " users in the database");
@@ -60,6 +64,7 @@ public class AdminUserService extends Application {
      */
     @GET
     @Path(value = "/{id}")
+    @ApiOperation(value = "Retrieve one user", notes = "Retrieve one user", response = JsonAdminUser.class)
     public JsonAdminUser getOne(@PathParam(value = "id") Integer id) {
         User u = userDao.getUser(id);
         LOGGER.info("find " + u.getLogin() + " user in the database");
@@ -74,6 +79,7 @@ public class AdminUserService extends Application {
      * @return
      */
     @POST
+    @ApiOperation(value = "Create / update one user", notes = "Create / update one user", response = JsonAdminUser.class)
     public JsonAdminUser createUpdateOne(JsonAdminUser user) {
         JsonAdminUser juser = user;
         if (user.getId() == null) {

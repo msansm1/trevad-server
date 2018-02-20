@@ -22,9 +22,13 @@ import bzh.msansm1.trevad.server.json.user.JsonUser;
 import bzh.msansm1.trevad.server.persistence.dao.UserDAO;
 import bzh.msansm1.trevad.server.persistence.model.User;
 import bzh.msansm1.trevad.server.utils.Crypt;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.Authorization;
 
 @ApplicationScoped
 @Path(value = "/users")
+@Api(value = "users", authorizations = { @Authorization(value = "token", scopes = {}) })
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 public class UserService extends Application {
@@ -43,6 +47,7 @@ public class UserService extends Application {
      * @return
      */
     @GET
+    @ApiOperation(value = "Retreive all users", notes = "Retreive all users", response = JsonUser.class, responseContainer = "List")
     public List<JsonUser> getAll() {
         List<User> users = userDao.getUsers();
         LOGGER.info("find " + users.size() + " users in the database");
@@ -61,6 +66,7 @@ public class UserService extends Application {
      */
     @GET
     @Path(value = "/{id}")
+    @ApiOperation(value = "Retrieve one user", notes = "Retrieve one user", response = JsonUser.class)
     public JsonUser getOne(@PathParam(value = "id") Integer id) {
         User u = userDao.getUser(id);
         LOGGER.info("find " + u.getLogin() + " user in the database");
@@ -75,6 +81,7 @@ public class UserService extends Application {
      * @return
      */
     @POST
+    @ApiOperation(value = "Create / update one user", notes = "Create / update one user", response = JsonUser.class)
     @Transactional(rollbackOn = Exception.class)
     public JsonUser createUpdateOne(JsonUser user) {
         JsonUser juser = user;
@@ -103,6 +110,7 @@ public class UserService extends Application {
      */
     @POST
     @Path(value = "/profile")
+    @ApiOperation(value = "update logged user", notes = "update logged user", response = JsonAuth.class)
     @Transactional(rollbackOn = Exception.class)
     public JsonAuth updateLogged(JsonAuth user) {
         JsonAuth juser = user;

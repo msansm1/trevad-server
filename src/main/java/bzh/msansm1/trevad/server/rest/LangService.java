@@ -21,9 +21,13 @@ import bzh.msansm1.trevad.server.json.JsonLang;
 import bzh.msansm1.trevad.server.persistence.dao.LangDAO;
 import bzh.msansm1.trevad.server.persistence.model.Lang;
 import bzh.msansm1.trevad.server.utils.Constants;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.Authorization;
 
 @ApplicationScoped
 @Path(value = "/langs")
+@Api(value = "langs", authorizations = { @Authorization(value = "token", scopes = {}) })
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 public class LangService extends Application {
@@ -42,6 +46,7 @@ public class LangService extends Application {
      * @return
      */
     @GET
+    @ApiOperation(value = "Retreive all langs", notes = "Retreive all langs", response = JsonLang.class, responseContainer = "List")
     public List<JsonLang> getAll() {
         List<Lang> langs = langDao.getLangs();
         LOGGER.info("find " + langs.size() + " langs in the database");
@@ -60,6 +65,7 @@ public class LangService extends Application {
      */
     @GET
     @Path(value = "/{id}")
+    @ApiOperation(value = "Retrieve one lang", notes = "Retrieve one lang", response = JsonLang.class)
     public JsonLang getOne(@PathParam(value = "id") Integer id) {
         Lang l = langDao.getLang(id);
         LOGGER.info("find " + l.getName() + " lang in the database");
@@ -74,6 +80,7 @@ public class LangService extends Application {
      * @return
      */
     @POST
+    @ApiOperation(value = "Create / update one lang", notes = "Create / update one lang", response = JsonLang.class)
     @Transactional(rollbackOn = Exception.class)
     public JsonLang createUpdateOne(JsonLang lang) {
         JsonLang jlang = lang;

@@ -22,6 +22,9 @@ import bzh.msansm1.trevad.server.json.auth.JsonLogin;
 import bzh.msansm1.trevad.server.persistence.dao.UserDAO;
 import bzh.msansm1.trevad.server.persistence.model.User;
 import bzh.msansm1.trevad.server.utils.Crypt;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.Authorization;
 
 /**
  * Auth service (/services/auth)
@@ -31,6 +34,7 @@ import bzh.msansm1.trevad.server.utils.Crypt;
  */
 @ApplicationScoped
 @Path(value = "/auth")
+@Api(value = "auth", authorizations = { @Authorization(value = "token", scopes = {}) })
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 public class AuthService extends Application {
@@ -50,6 +54,7 @@ public class AuthService extends Application {
      */
     @POST
     @Path("/login")
+    @ApiOperation(value = "login for user", notes = "login for user", response = JsonAuth.class)
     @Transactional(rollbackOn = Exception.class)
     public Response loginUser(@Context HttpServletRequest request, JsonLogin jlogin) {
         User u = userDao.getUserByLogin(jlogin.getLogin());
@@ -75,6 +80,7 @@ public class AuthService extends Application {
      */
     @POST
     @Path("/login/mobile")
+    @ApiOperation(value = "login for user from mobile", notes = "login for user from mobile", response = JsonAuth.class)
     @Transactional(rollbackOn = Exception.class)
     public Response loginMobileUser(@Context HttpServletRequest request, JsonLogin jlogin) {
         User u = userDao.getUserByLogin(jlogin.getLogin());
@@ -100,6 +106,7 @@ public class AuthService extends Application {
      */
     @POST
     @Path("/logout")
+    @ApiOperation(value = "logout for user", notes = "logout for user", response = String.class)
     @Transactional(rollbackOn = Exception.class)
     public String logoutUser(JsonAuth user) {
         User u = userDao.getUser(user.getId().intValue());
@@ -115,6 +122,7 @@ public class AuthService extends Application {
      */
     @POST
     @Path("/logout/mobile")
+    @ApiOperation(value = "logout for user from mobile", notes = "logout for user from mobile", response = String.class)
     @Transactional(rollbackOn = Exception.class)
     public String logoutMobileUser(JsonAuth user) {
         User u = userDao.getUser(user.getId().intValue());

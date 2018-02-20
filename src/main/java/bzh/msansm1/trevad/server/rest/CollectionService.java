@@ -21,9 +21,13 @@ import bzh.msansm1.trevad.server.json.book.JsonCollection;
 import bzh.msansm1.trevad.server.persistence.dao.CollectionDAO;
 import bzh.msansm1.trevad.server.persistence.model.Collection;
 import bzh.msansm1.trevad.server.utils.Constants;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.Authorization;
 
 @ApplicationScoped
 @Path(value = "/collections")
+@Api(value = "collections", authorizations = { @Authorization(value = "token", scopes = {}) })
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 public class CollectionService extends Application {
@@ -42,6 +46,7 @@ public class CollectionService extends Application {
      * @return
      */
     @GET
+    @ApiOperation(value = "Retreive all collections", notes = "Retreive all collections", response = JsonCollection.class, responseContainer = "List")
     public List<JsonCollection> getAll() {
         List<Collection> collections = collectionDao.getCollections();
         LOGGER.info("find " + collections.size() + " collections in the database");
@@ -60,6 +65,7 @@ public class CollectionService extends Application {
      */
     @GET
     @Path(value = "/{id}")
+    @ApiOperation(value = "Retrieve one collection", notes = "Retrieve one collection", response = JsonCollection.class)
     public JsonCollection getOne(@PathParam(value = "id") Integer id) {
         Collection l = collectionDao.getCollection(id);
         LOGGER.info("find " + l.getName() + " collection in the database");
@@ -74,6 +80,7 @@ public class CollectionService extends Application {
      * @return
      */
     @POST
+    @ApiOperation(value = "Create / update one collection", notes = "Create / update one collection", response = JsonCollection.class)
     @Transactional(rollbackOn = Exception.class)
     public JsonCollection createUpdateOne(JsonCollection collection) {
         JsonCollection jcollection = collection;

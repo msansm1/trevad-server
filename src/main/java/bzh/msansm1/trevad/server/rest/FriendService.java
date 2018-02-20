@@ -25,9 +25,13 @@ import bzh.msansm1.trevad.server.json.friend.JsonFriend;
 import bzh.msansm1.trevad.server.persistence.dao.FriendDAO;
 import bzh.msansm1.trevad.server.persistence.model.Friend;
 import bzh.msansm1.trevad.server.persistence.model.FriendPK;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.Authorization;
 
 @ApplicationScoped
 @Path(value = "/friends")
+@Api(value = "friends", authorizations = { @Authorization(value = "token", scopes = {}) })
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 public class FriendService extends Application {
@@ -48,6 +52,7 @@ public class FriendService extends Application {
      */
     @GET
     @Path(value = "/{userId}")
+    @ApiOperation(value = "Retreive all friends for an user", notes = "Retreive all friends for an user", response = JsonFriend.class, responseContainer = "List")
     public List<JsonFriend> getAllWithParams(@Context HttpServletRequest request,
             @PathParam(value = "userId") Integer userId, @QueryParam("from") int from, @QueryParam("limit") int limit,
             @QueryParam("orderBy") String orderBy, @QueryParam("orderDir") String orderDir) {
@@ -63,6 +68,7 @@ public class FriendService extends Application {
      */
     @GET
     @Path(value = "/{userId}/{id}")
+    @ApiOperation(value = "Retrieve one friend for one user", notes = "Retrieve one friend for one user", response = JsonFriend.class)
     public Response getOne(@PathParam(value = "userId") Integer userId, @PathParam(value = "id") Integer id) {
         JsonFriend jf = friendDAO.getFriendForUser(userId, id);
         if (jf == null) {
@@ -80,6 +86,7 @@ public class FriendService extends Application {
      */
     @POST
     @Path(value = "/{userId}/{id}")
+    @ApiOperation(value = "ask / accept friend", notes = "ask / accept friend", response = JsonFriend.class)
     @Transactional(rollbackOn = Exception.class)
     public JsonFriend createUpdate(@PathParam(value = "userId") Integer userId, @PathParam(value = "id") Integer id,
             JsonFriend friend) {
@@ -111,6 +118,7 @@ public class FriendService extends Application {
      */
     @GET
     @Path(value = "/{userId}/{id}/delete")
+    @ApiOperation(value = "delete friend", notes = "delete friend", response = JsonSimpleResponse.class)
     @Transactional(rollbackOn = Exception.class)
     public JsonSimpleResponse delete(@PathParam(value = "userId") Integer userId, @PathParam(value = "id") Integer id) {
         FriendPK fpk = new FriendPK();

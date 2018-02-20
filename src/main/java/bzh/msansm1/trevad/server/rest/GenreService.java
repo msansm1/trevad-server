@@ -21,9 +21,13 @@ import bzh.msansm1.trevad.server.json.album.JsonGenre;
 import bzh.msansm1.trevad.server.persistence.dao.GenreDAO;
 import bzh.msansm1.trevad.server.persistence.model.Genre;
 import bzh.msansm1.trevad.server.utils.Constants;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.Authorization;
 
 @ApplicationScoped
 @Path(value = "/genres")
+@Api(value = "genres", authorizations = { @Authorization(value = "token", scopes = {}) })
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 public class GenreService extends Application {
@@ -42,6 +46,7 @@ public class GenreService extends Application {
      * @return
      */
     @GET
+    @ApiOperation(value = "Retreive all genres", notes = "Retreive all genres", response = JsonGenre.class, responseContainer = "List")
     public List<JsonGenre> getAll() {
         List<Genre> genres = genreDao.getGenres();
         LOGGER.info("find " + genres.size() + " genres in the database");
@@ -60,6 +65,7 @@ public class GenreService extends Application {
      */
     @GET
     @Path(value = "/{id}")
+    @ApiOperation(value = "Retrieve one genre", notes = "Retrieve one genre", response = JsonGenre.class)
     public JsonGenre getOne(@PathParam(value = "id") Integer id) {
         Genre s = genreDao.getGenre(id);
         LOGGER.info("find " + s.getName() + " genre in the database");
@@ -74,6 +80,7 @@ public class GenreService extends Application {
      * @return
      */
     @POST
+    @ApiOperation(value = "Create / update one genre", notes = "Create / update one genre", response = JsonGenre.class)
     @Transactional(rollbackOn = Exception.class)
     public JsonGenre createUpdateOne(JsonGenre genre) {
         JsonGenre jgenre = genre;

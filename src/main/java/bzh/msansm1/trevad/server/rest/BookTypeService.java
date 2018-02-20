@@ -21,9 +21,13 @@ import bzh.msansm1.trevad.server.json.book.JsonBooktype;
 import bzh.msansm1.trevad.server.persistence.dao.BooktypeDAO;
 import bzh.msansm1.trevad.server.persistence.model.Booktype;
 import bzh.msansm1.trevad.server.utils.Constants;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.Authorization;
 
 @ApplicationScoped
 @Path(value = "/booktypes")
+@Api(value = "booktypes", authorizations = { @Authorization(value = "token", scopes = {}) })
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 public class BookTypeService extends Application {
@@ -42,6 +46,7 @@ public class BookTypeService extends Application {
      * @return
      */
     @GET
+    @ApiOperation(value = "Retreive all booktypes", notes = "Retreive all booktypes", response = JsonBooktype.class, responseContainer = "List")
     public List<JsonBooktype> getAll() {
         List<Booktype> booktypes = booktypeDao.getBooktypes();
         LOGGER.info("find " + booktypes.size() + " booktypes in the database");
@@ -60,6 +65,7 @@ public class BookTypeService extends Application {
      */
     @GET
     @Path(value = "/{id}")
+    @ApiOperation(value = "Retrieve one booktype", notes = "Retrieve one booktype", response = JsonBooktype.class)
     public JsonBooktype getOne(@PathParam(value = "id") Integer id) {
         Booktype l = booktypeDao.getBooktype(id);
         LOGGER.info("find " + l.getName() + " booktype in the database");
@@ -74,6 +80,7 @@ public class BookTypeService extends Application {
      * @return
      */
     @POST
+    @ApiOperation(value = "Create / update one booktype", notes = "Create / update one booktype", response = JsonBooktype.class)
     @Transactional(rollbackOn = Exception.class)
     public JsonBooktype createUpdateOne(JsonBooktype booktype) {
         JsonBooktype jbooktype = booktype;

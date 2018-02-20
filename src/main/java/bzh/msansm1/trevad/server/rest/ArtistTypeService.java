@@ -21,9 +21,13 @@ import bzh.msansm1.trevad.server.json.artist.JsonArtisttype;
 import bzh.msansm1.trevad.server.persistence.dao.ArtisttypeDAO;
 import bzh.msansm1.trevad.server.persistence.model.Artisttype;
 import bzh.msansm1.trevad.server.utils.Constants;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.Authorization;
 
 @ApplicationScoped
 @Path(value = "/artisttypes")
+@Api(value = "artisttypes", authorizations = { @Authorization(value = "token", scopes = {}) })
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 public class ArtistTypeService extends Application {
@@ -42,6 +46,7 @@ public class ArtistTypeService extends Application {
      * @return
      */
     @GET
+    @ApiOperation(value = "Retreive all artisttypes", notes = "Retreive all artisttypes", response = JsonArtisttype.class, responseContainer = "List")
     public List<JsonArtisttype> getAll() {
         List<Artisttype> artisttypes = artisttypeDao.getArtisttypes();
         LOGGER.info("find " + artisttypes.size() + " artisttypes in the database");
@@ -60,6 +65,7 @@ public class ArtistTypeService extends Application {
      */
     @GET
     @Path(value = "/{id}")
+    @ApiOperation(value = "Retrieve one artisttype", notes = "Retrieve one artisttype", response = JsonArtisttype.class)
     public JsonArtisttype getOne(@PathParam(value = "id") Integer id) {
         Artisttype l = artisttypeDao.getArtisttype(id);
         LOGGER.info("find " + l.getName() + " artisttype in the database");
@@ -74,6 +80,7 @@ public class ArtistTypeService extends Application {
      * @return
      */
     @POST
+    @ApiOperation(value = "Create / update one artisttype", notes = "Create / update one artisttype", response = JsonArtisttype.class)
     @Transactional(rollbackOn = Exception.class)
     public JsonArtisttype createUpdateOne(JsonArtisttype artisttype) {
         JsonArtisttype jartisttype = artisttype;

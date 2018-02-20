@@ -25,9 +25,13 @@ import bzh.msansm1.trevad.server.persistence.dao.TrackartistDAO;
 import bzh.msansm1.trevad.server.persistence.model.Track;
 import bzh.msansm1.trevad.server.persistence.model.Trackartist;
 import bzh.msansm1.trevad.server.persistence.model.TrackartistPK;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.Authorization;
 
 @ApplicationScoped
 @Path(value = "/tracks")
+@Api(value = "tracks", authorizations = { @Authorization(value = "token", scopes = {}) })
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 public class TrackService extends Application {
@@ -53,6 +57,7 @@ public class TrackService extends Application {
      */
     @GET
     @Path("/album/{albumId}")
+    @ApiOperation(value = "Retreive all tracks for one album", notes = "Retreive all tracks for one album", response = JsonTrack.class, responseContainer = "List")
     public List<JsonTrack> getAlbumTracks(@PathParam(value = "albumId") Integer albumId) {
         List<Track> tracks = trackDao.getTracksForAlbum(albumId);
         LOGGER.info("find " + tracks.size() + " tracks for album : " + albumId);
@@ -73,6 +78,7 @@ public class TrackService extends Application {
      */
     @GET
     @Path(value = "/{id}")
+    @ApiOperation(value = "Retrieve one track", notes = "Retrieve one track", response = JsonTrack.class)
     public JsonTrack getOne(@PathParam(value = "id") Integer id) {
         Track t = trackDao.getTrack(id);
         LOGGER.info("find " + t.getTitle() + " track in the database");
@@ -86,6 +92,7 @@ public class TrackService extends Application {
      * @return
      */
     @POST
+    @ApiOperation(value = "Create / update one track", notes = "Create / update one track", response = JsonTrack.class)
     @Transactional(rollbackOn = Exception.class)
     public JsonTrack createUpdateOne(JsonTrack track) {
         JsonTrack jt = track;
