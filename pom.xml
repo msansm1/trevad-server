@@ -108,7 +108,10 @@
 			<groupId>org.wildfly.swarm</groupId>
 			<artifactId>logging</artifactId>
 		</dependency>
-
+		<dependency>
+		  <groupId>org.wildfly.swarm</groupId>
+		  <artifactId>keycloak-server</artifactId>
+		</dependency>
 
 
 		<!-- Problem : at run exception RESTEASY003190 <dependency> <groupId>org.wildfly.swarm</groupId> 

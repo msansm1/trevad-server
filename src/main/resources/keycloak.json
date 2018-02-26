@@ -1,0 +1,8 @@
+{
+  "realm": "trevadusers",
+  "realm-public-key": "mohizefoiIHFILEFILE984930U3IHILohilkefisfhç_ey9YHORIH98RHIFHEFIOeehfsefhesyçf_7T87Y9ZGR87RIshifgusifiefgçegiLG7943084OIHI",
+  "bearer-only": true,
+  "auth-server-url": "http://localhost:8080/auth",
+  "ssl-required": "external",
+  "resource": "api"
+}
